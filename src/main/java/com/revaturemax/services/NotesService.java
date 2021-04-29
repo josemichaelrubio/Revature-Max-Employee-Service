@@ -22,7 +22,7 @@ public class NotesService {
         if (token.getEmployeeId() != employeeId) return new ResponseEntity<String>(HttpStatus.FORBIDDEN);
         validateNotes(notes);
         notes.setEmployee(new Employee(employeeId));
-        if (notes.getNotes().equals("")) {
+        if (notes.getContent().equals("")) {
             notesRepository.delete(notes);
             return new ResponseEntity<>(HttpStatus.OK);
         } else {

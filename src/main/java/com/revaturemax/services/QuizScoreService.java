@@ -1,46 +1,36 @@
 package com.revaturemax.services;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
-import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import com.revaturemax.models.*;
 // import com.revaturemax.projections.QuizAverage;
-import com.revaturemax.repositories.BatchRepository;
 // import com.revaturemax.repositories.CurriculumDayRepository;
-import com.revaturemax.repositories.EmployeeQuizRepository;
-import com.revaturemax.repositories.QuizRepository;
+import com.revaturemax.repositories.QuizScoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.sql.Date;
-import java.util.List;
-import java.util.Optional;
-
 @Service
-public class QuizService {
+public class QuizScoreService {
 
     // @Autowired
     // private ObjectMapper objectMapper;
     @Autowired
-    private QuizRepository quizRepository;
+    private QuizScoreRepository quizScoreRepository;
     // @Autowired
     // private BatchRepository batchRepository;
     // @Autowired
     // private CurriculumDayRepository curriculumDayRepository;
     @Autowired
-    private EmployeeQuizRepository employeeQuizRepository;
+    private QuizScoreRepository employeeQuizRepository;
 
-    public ResponseEntity<String> setEmployeeQuiz(Token token, long employeeId, long quizId, EmployeeQuiz employeeQuiz) {
-        if (token.getEmployeeId() != employeeId) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        if (!quizRepository.existsById(quizId)) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        employeeQuiz.setEmployee(new Employee(employeeId));
-        employeeQuiz.setQuiz(new Quiz(quizId));
-        employeeQuizRepository.save(employeeQuiz);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
+//    public ResponseEntity<String> setEmployeeQuiz(Token token, long employeeId, long quizId, com.revaturemax.models.QuizScore quizScore) {
+//        if (token.getEmployeeId() != employeeId) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+//        if (!quizRepository.existsById(quizId)) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        quizScore.setEmployee(new Employee(employeeId));
+//        quizScore.setQuiz(new Quiz(quizId));
+//        employeeQuizRepository.save(quizScore);
+//        return new ResponseEntity<>(HttpStatus.OK);
+//    }
 /*
 
     public ResponseEntity<String> setNewQuiz(Token token, long batchId, Quiz quiz) {

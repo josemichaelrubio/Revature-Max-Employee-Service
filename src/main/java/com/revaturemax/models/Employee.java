@@ -25,23 +25,33 @@ public class Employee {
     @Column(unique = true)
     private String email;
 
+    private String phoneNumber;
+    private String address;
+    private String pictureUrl;
+
     public Employee() {}
 
-    public Employee(long id) {
+    public Employee(Long id) {
         this.id = id;
     }
 
-    public Employee(Role role, String name, String email) {
+    public Employee(Role role, String name, String email, String phoneNumber, String address, String pictureUrl) {
         this.role = role;
         this.name = name;
         this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.address = address;
+        this.pictureUrl = pictureUrl;
     }
 
-    public Employee(long id, Role role, String name, String email) {
+    public Employee(Long id, Role role, String name, String email, String phoneNumber, String address, String pictureUrl) {
         this.id = id;
         this.role = role;
         this.name = name;
         this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.address = address;
+        this.pictureUrl = pictureUrl;
     }
 
     public Long getId() {
@@ -76,18 +86,41 @@ public class Employee {
         this.email = email;
     }
 
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getPictureUrl() {
+        return pictureUrl;
+    }
+
+    public void setPictureUrl(String pictureUrl) {
+        this.pictureUrl = pictureUrl;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Employee employee = (Employee) o;
-        return role == employee.role && Objects.equals(name, employee.name) &&
-                Objects.equals(email, employee.email);
+        return Objects.equals(id, employee.id) && role == employee.role && Objects.equals(name, employee.name) && Objects.equals(email, employee.email) && Objects.equals(phoneNumber, employee.phoneNumber) && Objects.equals(address, employee.address) && Objects.equals(pictureUrl, employee.pictureUrl);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(role, name, email);
+        return Objects.hash(id, role, name, email, phoneNumber, address, pictureUrl);
     }
 
     @Override
@@ -97,6 +130,9 @@ public class Employee {
                 ", role=" + role +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", address='" + address + '\'' +
+                ", pictureUrl='" + pictureUrl + '\'' +
                 '}';
     }
 }

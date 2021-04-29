@@ -1,14 +1,10 @@
 package com.revaturemax.services;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
-import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 // import com.revaturemax.dto.TopicResponse;
 import com.revaturemax.models.*;
 // import com.revaturemax.projections.Topics;
-import com.revaturemax.repositories.EmployeeTopicRepository;
-import com.revaturemax.repositories.TopicRepository;
+import com.revaturemax.repositories.TopicCompetencyRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,36 +12,32 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
 @Service
 public class TopicService {
 
     @Autowired
     ObjectMapper objectMapper;
     @Autowired
-    TopicRepository topicRepository;
+    TopicCompetencyRepository topicCompetencyRepository;
  //   @Autowired
 //    TopicTagRepository topicTagRepository;
-    @Autowired
-    EmployeeTopicRepository employeeTopicRepository;
+//    @Autowired
+// TopicCompetencyRepository topicCompetencyRepository;
     // @Autowired
 //    NotesRepository notesRepository;
 
     Logger logger = LogManager.getLogger(TopicService.class);
 
-    public ResponseEntity<String> setEmployeeTopic(Token token, long employeeId, long topicId,
-                                                   EmployeeTopic employeeTopic)
-    {
-        if (token.getEmployeeId() != employeeId) return new ResponseEntity<String>(HttpStatus.FORBIDDEN);
-        if (!topicRepository.existsById(topicId)) return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
-        employeeTopic.setEmployee(new Employee(employeeId));
-        employeeTopic.setTopic(new Topic(topicId));
-        employeeTopicRepository.save(employeeTopic);
-        return new ResponseEntity<String>(HttpStatus.OK);
-    }
+//    public ResponseEntity<String> setEmployeeTopic(Token token, long employeeId, long topicId,
+//                                                   TopicCompetency topicCompetency)
+//    {
+//        if (token.getEmployeeId() != employeeId) return new ResponseEntity<String>(HttpStatus.FORBIDDEN);
+//        if (!topicRepository.existsById(topicId)) return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
+//        topicCompetency.setEmployee(new Employee(employeeId));
+//        topicCompetency.setTopic(new Topic(topicId));
+//        topicCompetencyRepository.save(topicCompetency);
+//        return new ResponseEntity<String>(HttpStatus.OK);
+//    }
 /*
     public ResponseEntity<String> getTopic(Token token, long batchId, long topicId) {
         long employeeId = token.getEmployeeId();

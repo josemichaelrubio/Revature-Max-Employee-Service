@@ -1,3 +1,3 @@
 package com.revaturemax.models;
 
-public enum Role { ASSOCIATE, INSTRUCTOR }
+public enum Role { ASSOCIATE, INSTRUCTOR, ADMIN }

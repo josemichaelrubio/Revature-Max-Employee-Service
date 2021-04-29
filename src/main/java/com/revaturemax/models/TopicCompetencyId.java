@@ -1,27 +1,22 @@
 package com.revaturemax.models;
 
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.io.Serializable;
 import java.util.Objects;
 
 @Embeddable
-@Component
-@Scope("prototype")
-public class EmployeeTopicId implements Serializable {
-
-    @Column(name = "employee_id")
+public class TopicCompetencyId implements Serializable {
+    @Column(name="employee_id")
     private Long employeeId;
-
-    @Column(name = "topic_id")
+    @Column(name="topic_id")
     private Long topicId;
 
-    public EmployeeTopicId() {}
+    public TopicCompetencyId() {
+        super();
+    }
 
-    public EmployeeTopicId(Long employeeId, Long topicId) {
+    public TopicCompetencyId(Long employeeId, Long topicId) {
         this.employeeId = employeeId;
         this.topicId = topicId;
     }
@@ -46,8 +41,8 @@ public class EmployeeTopicId implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        EmployeeTopicId that = (EmployeeTopicId) o;
-        return employeeId.equals(that.employeeId) && topicId.equals(that.topicId);
+        TopicCompetencyId that = (TopicCompetencyId) o;
+        return Objects.equals(employeeId, that.employeeId) && Objects.equals(topicId, that.topicId);
     }
 
     @Override
@@ -55,4 +50,11 @@ public class EmployeeTopicId implements Serializable {
         return Objects.hash(employeeId, topicId);
     }
 
+    @Override
+    public String toString() {
+        return "TopicCompetencyId{" +
+                "employeeId=" + employeeId +
+                ", topicId=" + topicId +
+                '}';
+    }
 }

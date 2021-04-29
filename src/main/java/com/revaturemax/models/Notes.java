@@ -17,19 +17,18 @@ public class Notes {
     @JoinColumn(name = "employee_id")
     private Employee employee;
 
-    @ManyToOne
-    @JoinColumn(name = "topic_id")
-    private Topic topic;
+    @Column(name = "topic_id")
+    private Long topicId;
 
     @Lob
-    private String notes;
+    private String content;
 
     public Notes() {}
 
-    public Notes(Employee employee, Topic topic, String notes) {
+    public Notes(Employee employee, Long topicId, String content) {
         this.employee = employee;
-        this.topic = topic;
-        this.notes = notes;
+        this.topicId = topicId;
+        this.content = content;
     }
 
     public Long getId() {
@@ -48,33 +47,42 @@ public class Notes {
         this.employee = employee;
     }
 
-    public Topic getTopic() {
-        return topic;
+    public Long getTopicId() {
+        return topicId;
     }
 
-    public void setTopic(Topic topic) {
-        this.topic = topic;
+    public void setTopicId(Long topicId) {
+        this.topicId = topicId;
     }
 
-    public String getNotes() {
-        return notes;
+    public String getContent() {
+        return content;
     }
 
-    public void setNotes(String notes) {
-        this.notes = notes;
+    public void setContent(String content) {
+        this.content = content;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Notes notes1 = (Notes) o;
-        return Objects.equals(employee, notes1.employee) && Objects.equals(topic, notes1.topic);
+        Notes notes = (Notes) o;
+        return Objects.equals(id, notes.id) && Objects.equals(employee, notes.employee) && Objects.equals(topicId, notes.topicId) && Objects.equals(content, notes.content);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(employee, topic);
+        return Objects.hash(id, employee, topicId, content);
     }
 
+    @Override
+    public String toString() {
+        return "Notes{" +
+                "id=" + id +
+                ", employee=" + employee +
+                ", topic=" + topicId +
+                ", content='" + content + '\'' +
+                '}';
+    }
 }
