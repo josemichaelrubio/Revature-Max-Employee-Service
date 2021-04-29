@@ -5,9 +5,9 @@ pipeline {
         PORT="80"
         IMAGE_TAG="employee-service-image"
         CONTAINER_NAME="employee-service-container"
-        DB_URL=credentials('[db-url]')
-        DB_USER=credentials('[db-username]')
-        DB_PASS=credentials('[db-password]')
+        DB_URL=credentials('DB_URL')
+        DB_USER=credentials('DB_USER')
+        DB_PASS=credentials('DB_PASS')
     }
 
    stages {
