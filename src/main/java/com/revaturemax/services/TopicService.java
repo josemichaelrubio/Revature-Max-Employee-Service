@@ -13,15 +13,13 @@ public class TopicService {
     @Autowired
     private TopicCompetencyRepository topicCompetencyRepository;
 
-    public ResponseEntity<String> setEmployeeTopic(Token token, long employeeId, long topicId,
+    public ResponseEntity<String> setEmployeeTopicCompetency(long employeeId, long topicId,
                                                    TopicCompetency topicCompetency)
     {
-        /*if (token.getEmployeeId() != employeeId) return new ResponseEntity<String>(HttpStatus.FORBIDDEN);
-        if (!topicRepository.existsById(topicId)) return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
+        topicCompetency.setId(new TopicCompetencyId(employeeId, topicId));
         topicCompetency.setEmployee(new Employee(employeeId));
-        topicCompetency.setTopic(new Topic(topicId));
-        topicCompetencyRepository.save(topicCompetency);*/
-        return new ResponseEntity<String>(HttpStatus.OK);
+        topicCompetencyRepository.save(topicCompetency);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

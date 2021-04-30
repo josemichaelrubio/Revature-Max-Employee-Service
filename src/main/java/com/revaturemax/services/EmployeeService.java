@@ -71,38 +71,44 @@ public class EmployeeService {
         }
     }
 
-    public ResponseEntity<String> getEmployee(Token token, long employeeId)
+    public ResponseEntity<Employee> getEmployee(long employeeId)
     {
-        if (token.getEmployeeId() != employeeId) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         Employee employee = employeeRepository.findById(employeeId).orElse(null);
         if (employee == null) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        return null;
-        // return writeEmployeeResponse(response);
+        return new ResponseEntity<>(employee, HttpStatus.OK);
     }
 
     @Transactional
     public ResponseEntity<String> createNewEmployee(String name, String email, String password)
     {
-        if (!validName(name)) return new ResponseEntity<String>("Bad name", HttpStatus.BAD_REQUEST);
-        if (!validEmail(email)) return new ResponseEntity<String>("Bad email", HttpStatus.BAD_REQUEST);
-        if (!validPassword(password)) return new ResponseEntity<String>("Bad password", HttpStatus.BAD_REQUEST);
+        if (!validName(name)) return new ResponseEntity<>("Bad name", HttpStatus.BAD_REQUEST);
+        if (!validEmail(email)) return new ResponseEntity<>("Bad email", HttpStatus.BAD_REQUEST);
+        if (!validPassword(password)) return new ResponseEntity<>("Bad password", HttpStatus.BAD_REQUEST);
 
-        Employee employee = new Employee(); // need to consider making employee with another constructor
+        Employee employee = new Employee(name, email);
+        employee.setRole(Role.ASSOCIATE);
         try {
             employee = employeeRepository.save(employee);
         } catch (UnexpectedRollbackException e) {
-            return new ResponseEntity<String>("The provided email is already taken", HttpStatus.CONFLICT);
+            return new ResponseEntity<>("The provided email is already taken", HttpStatus.CONFLICT);
         }
 
         byte[] salt = Passwords.getNewPasswordSalt();
         byte[] hash = Passwords.getPasswordHash(password, salt);
         passwordRepository.save(new Password(employee, salt, hash));
         try {
-            return new ResponseEntity<String>(objectMapper.writer().writeValueAsString(employee), HttpStatus.CREATED);
+            return new ResponseEntity<>(objectMapper.writer().writeValueAsString(employee), HttpStatus.CREATED);
         } catch (JsonProcessingException e) {
-            return new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    public ResponseEntity<Employee> updateEmployee(Long employeeId, Employee employee) {
+        employee.setId(employeeId);
+        employee = employeeRepository.save(employee);
+        return new ResponseEntity<>(employee, HttpStatus.OK);
+    }
+
 
     /*public void deleteEmployee(long id) {
         employeeRepository.deleteById(id);

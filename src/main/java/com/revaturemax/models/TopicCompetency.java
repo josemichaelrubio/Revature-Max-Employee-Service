@@ -36,6 +36,10 @@ public class TopicCompetency {
         return employee;
     }
 
+    public void setId(TopicCompetencyId id) {
+        this.id = id;
+    }
+
     public void setEmployee(Employee employee) {
         this.employee = employee;
     }

@@ -13,12 +13,10 @@ public class QuizService {
     @Autowired
     private QuizScoreRepository quizScoreRepository;
 
-    public ResponseEntity<String> setEmployeeQuiz(Token token, long employeeId, long quizId, QuizScore quizScore) {
-        /*if (token.getEmployeeId() != employeeId) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        if (!quizRepository.existsById(quizId)) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    public ResponseEntity<String> setQuizScore(long employeeId, long quizId, QuizScore quizScore) {
+        quizScore.setId(new QuizScoreId(employeeId, quizId));
         quizScore.setEmployee(new Employee(employeeId));
-        quizScore.setQuiz(new Quiz(quizId));
-        employeeQuizRepository.save(quizScore);*/
+        quizScoreRepository.save(quizScore);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
