@@ -7,9 +7,11 @@ import java.util.Objects;
 
 @Embeddable
 public class TopicCompetencyId implements Serializable {
-    @Column(name="employee_id")
+
+    @Column(name = "employee_id")
     private Long employeeId;
-    @Column(name="topic_id")
+
+    @Column(name = "topic_id")
     private Long topicId;
 
     public TopicCompetencyId() {
@@ -57,4 +59,5 @@ public class TopicCompetencyId implements Serializable {
                 ", topicId=" + topicId +
                 '}';
     }
+
 }

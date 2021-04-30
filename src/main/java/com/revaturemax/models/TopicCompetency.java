@@ -1,5 +1,7 @@
 package com.revaturemax.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -12,6 +14,7 @@ public class TopicCompetency {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("employeeId")
+    @JsonIgnore
     @JoinColumn(name="employee_id")
     private Employee employee;
 
@@ -25,8 +28,16 @@ public class TopicCompetency {
         super();
     }
 
+    public TopicCompetencyId getId() {
+        return id;
+    }
+
     public Employee getEmployee() {
         return employee;
+    }
+
+    public void setId(TopicCompetencyId id) {
+        this.id = id;
     }
 
     public void setEmployee(Employee employee) {

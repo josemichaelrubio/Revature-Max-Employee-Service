@@ -1,12 +1,9 @@
 package com.revaturemax.models;
 
-import com.fasterxml.jackson.annotation.JsonFilter;
-
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@JsonFilter("Notes")
 public class Notes {
 
     @Id

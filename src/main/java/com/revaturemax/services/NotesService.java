@@ -18,9 +18,10 @@ public class NotesService {
     @Autowired
     private NotesRepository notesRepository;
 
-    public ResponseEntity<String> setNotes(Token token, long employeeId, Notes notes) {
-        if (token.getEmployeeId() != employeeId) return new ResponseEntity<String>(HttpStatus.FORBIDDEN);
-        validateNotes(notes);
+    public ResponseEntity<String> setNotes(long employeeId, Notes notes) {
+        if (notes.getTopicId() == null) {
+            return new ResponseEntity<>("Need topic id to be set!",HttpStatus.BAD_REQUEST);
+        }
         notes.setEmployee(new Employee(employeeId));
         if (notes.getContent().equals("")) {
             notesRepository.delete(notes);
@@ -30,9 +31,4 @@ public class NotesService {
             return new ResponseEntity<>(notes.getId().toString(), HttpStatus.OK);
         }
     }
-
-    private void validateNotes(Notes notes) {
-        //check topic set
-    }
-
 }

@@ -1,16 +1,9 @@
 package com.revaturemax.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Component
-@Scope("prototype")
-@JsonIgnoreProperties("hibernateLazyInitializer")
 public class Employee {
 
     @Id
@@ -33,6 +26,11 @@ public class Employee {
 
     public Employee(Long id) {
         this.id = id;
+    }
+
+    public Employee(String name, String email) {
+        this.name = name;
+        this.email = email;
     }
 
     public Employee(Role role, String name, String email, String phoneNumber, String address, String pictureUrl) {
