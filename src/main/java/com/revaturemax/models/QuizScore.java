@@ -1,17 +1,13 @@
 package com.revaturemax.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
+import com.fasterxml.jackson.annotation.JsonFilter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
 @Table(name = "quiz_score")
-@Component
-@JsonIgnoreProperties("hibernateLazyInitializer")
-@Scope("prototype")
 public class QuizScore {
 
     @EmbeddedId
@@ -19,6 +15,7 @@ public class QuizScore {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("employeeId")
+    @JsonIgnore
     @JoinColumn(name="employee_id")
     private Employee employee;
 
@@ -47,6 +44,7 @@ public class QuizScore {
     }
 
     public void setEmployee(Employee employee) {
+        this.id.setEmployeeId(employee.getId());
         this.employee = employee;
     }
 
@@ -79,4 +77,5 @@ public class QuizScore {
                 ", score=" + score +
                 '}';
     }
+
 }

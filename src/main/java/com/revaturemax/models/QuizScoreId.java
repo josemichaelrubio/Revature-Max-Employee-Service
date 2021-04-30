@@ -7,8 +7,10 @@ import java.util.Objects;
 
 @Embeddable
 public class QuizScoreId implements Serializable {
+
     @Column(name="employee_id")
     private Long employeeId;
+
     @Column(name="quiz_id")
     private Long quizId;
 
@@ -57,4 +59,5 @@ public class QuizScoreId implements Serializable {
                 ", quizId=" + quizId +
                 '}';
     }
+
 }
