@@ -5,9 +5,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.stereotype.Service;
 
 import java.util.Properties;
 
+@Service
 public class EmailNotificationService {
 
 
@@ -16,21 +18,22 @@ public class EmailNotificationService {
 
     public void sendSimpleEmail(String to, String subject, String text) {
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("sujit.np@gmail.com");
+        message.setFrom("thomas.carroll@revature.net");
         message.setTo(to);
         message.setSubject(subject);
         message.setText(text);
         emailSender.send(message);
+        System.out.println("mail sent");
     }
 
     @Bean
     public JavaMailSender getJavaMailSender() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-        mailSender.setHost("email-smtp.us-east-1.amazonaws.com");
+        mailSender.setHost("smtp.socketlabs.com");
         mailSender.setPort(587);
 
-        mailSender.setUsername(System.getenv("EMAIL_USER"));
-        mailSender.setPassword(System.getenv("EMAIL_PASS"));
+        mailSender.setUsername("server38986");
+        mailSender.setPassword("a2ASf49Dgi5RYw6t8");
 
         Properties props = mailSender.getJavaMailProperties();
         props.put("mail.transport.protocol", "smtp");

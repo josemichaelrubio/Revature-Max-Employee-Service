@@ -28,9 +28,4 @@ public class EmailNotificationServiceTest {
         emailNotificationService.sendSimpleEmail("test@email.com", "test subject", "test Text");
         verify(emailNotificationService, times(1)).sendSimpleEmail("test@email.com", "test subject", "test Text");
     }
-
-    @Test
-    public void emailNotificationServiceMailSenderTest(){
-
-    }
 }
