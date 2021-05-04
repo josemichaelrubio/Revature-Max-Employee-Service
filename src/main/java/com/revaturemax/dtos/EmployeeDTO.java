@@ -2,6 +2,7 @@ package com.revaturemax.dtos;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.revaturemax.models.Employee;
+import com.revaturemax.models.QCFeedback;
 import com.revaturemax.models.QuizScore;
 import com.revaturemax.models.TopicCompetency;
 
@@ -16,6 +17,9 @@ public class EmployeeDTO {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<TopicCompetency> topicCompetencies;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private List<QCFeedback> qcFeedbacks;
 
     public EmployeeDTO() {}
 
@@ -41,6 +45,14 @@ public class EmployeeDTO {
 
     public void setTopicCompetencies(List<TopicCompetency> topicCompetencies) {
         this.topicCompetencies = topicCompetencies;
+    }
+
+    public List<QCFeedback> getQcFeedbacks() {
+        return qcFeedbacks;
+    }
+
+    public void setQcFeedbacks(List<QCFeedback> qcFeedbacks) {
+        this.qcFeedbacks = qcFeedbacks;
     }
 
 }
