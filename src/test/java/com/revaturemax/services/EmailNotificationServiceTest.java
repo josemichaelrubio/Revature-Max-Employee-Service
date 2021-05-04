@@ -4,9 +4,15 @@ package com.revaturemax.services;
 
 import org.junit.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+
+import javax.validation.constraints.Email;
 
 import static org.mockito.Mockito.*;
 
@@ -14,12 +20,17 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 public class EmailNotificationServiceTest {
 
-    @Autowired
-    EmailNotificationService emailNotificationService;
+
 
     @Test
     public void emailNotificationServiceTest(){
-        doNothing().when(emailNotificationService).sendSimpleEmail("test@email.com", "test subject", "test Text");
+        EmailNotificationService emailNotificationService = mock(EmailNotificationService.class);
+        emailNotificationService.sendSimpleEmail("test@email.com", "test subject", "test Text");
         verify(emailNotificationService, times(1)).sendSimpleEmail("test@email.com", "test subject", "test Text");
+    }
+
+    @Test
+    public void emailNotificationServiceMailSenderTest(){
+
     }
 }
