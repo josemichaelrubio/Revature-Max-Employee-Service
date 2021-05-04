@@ -16,7 +16,7 @@ public class QuizScore {
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("employeeId")
     @JsonIgnore
-    @JoinColumn(name="employee_id")
+    @JoinColumn(name = "employee_id")
     private Employee employee;
 
     private float score;
