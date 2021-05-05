@@ -1,6 +1,3 @@
-server:
-  port: 8082
-
 spring:
   application:
     name: employee-service
@@ -12,9 +9,9 @@ spring:
     restart:
       enabled: true
   datasource:
-    url: jdbc:sqlserver://l4g.database.windows.net:1433;database=employee-practice
-    username: l4gadmin@l4g
-    password: "#DDjjL4G"
+    url: ${DB_URl}
+    username: ${DB_USER}
+    password: ${DB_PASS}
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
   jpa:
     database-platform: org.hibernate.dialect.SQLServerDialect
@@ -22,3 +19,5 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: update
+server:
+  port: 8082
