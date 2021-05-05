@@ -1,5 +1,6 @@
 package com.revaturemax.controllers;
 
+import com.revaturemax.dtos.FavNotesDTO;
 import com.revaturemax.models.*;
 import com.revaturemax.services.*;
 import org.apache.logging.log4j.LogManager;
@@ -66,14 +67,6 @@ public class EmployeeController {
         return employeeService.updateEmployee(employeeId, employee);
     }
 
-//    @DeleteMapping(path = "/{employee-id}")
-//    public ResponseEntity<String> deleteEmployee(@PathVariable("employee-id") long employeeId)
-//    {
-//        logger.info("Deleting an employee with id: {}", employeeId);
-//        employeeService.deleteEmployee(employeeId);
-//        return new ResponseEntity<String>(HttpStatus.ACCEPTED);
-//    }
-
     @PutMapping(path = "/{employee-id}/quizzes/{quiz-id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> setQuizScore(@PathVariable("employee-id") long employeeId,
                                            @PathVariable("quiz-id") long quizId,
@@ -108,6 +101,14 @@ public class EmployeeController {
     {
         logger.info("PUT /employees/{}/notes received", employeeId);
         return notesService.setNotes(employeeId, notes);
+    }
+
+    @GetMapping(path = "/{employee-id}/notes", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> getFavoriteNotes(@PathVariable("employee-id") long employeeId,
+                                                   @RequestBody FavNotesDTO favNotesDTO)
+    {
+        logger.info("Getting favorite notes with id: ", favNotesId);
+        return notesService.getFavNotes(favNotesId, favNotesDTO);
     }
 
 }
