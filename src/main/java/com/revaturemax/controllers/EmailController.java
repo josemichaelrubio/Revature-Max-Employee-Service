@@ -4,6 +4,8 @@ import com.revaturemax.services.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.websocket.server.PathParam;
+
 @RestController
 @CrossOrigin
 @RequestMapping("/email")
@@ -13,7 +15,10 @@ public class EmailController {
     EmailService emailService;
 
     @GetMapping
-    public void sendTestEmail(){
-        emailService.sendEmail("duncan.asplundh@revature.net", "Hello!", "Tis functional");
+    public void inviteBatchEmail(@RequestParam Long employeeId, @RequestParam Long batchId){
+        emailService.batchInvite(employeeId, batchId);
     }
+
+    @GetMapping(path = "/{employeeId}")
+    public void verifyEmail(@PathVariable Long employeeId) {emailService.verifyEmail(employeeId);}
 }

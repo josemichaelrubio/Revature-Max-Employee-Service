@@ -1,4 +1,8 @@
 package com.revaturemax.services;
+import com.revaturemax.models.Employee;
+import com.revaturemax.models.Role;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Properties;
@@ -12,6 +16,8 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 @Service
 public class EmailService {
+    @Autowired
+    EmployeeService employeeService;
 
     public void sendEmail(String to, String subject, String text) {
 
@@ -71,5 +77,24 @@ public class EmailService {
             mex.printStackTrace();
         }
 
+    }
+
+    public void verifyEmail(Long employeeId) {
+        ResponseEntity<Employee> response = employeeService.getEmployee(employeeId);
+        Employee employee = response.getBody();
+        employee.setRole(Role.ASSOCIATE);
+        employeeService.updateEmployee(employee.getId(), employee);
+
+    }
+
+    public void batchInvite(Long employeeId, Long batchId) {
+        //Todo do we want to do more with this?
+        ResponseEntity<Employee> response = employeeService.getEmployee(employeeId);
+        Employee employee = response.getBody();
+        if(!employee.getRole().equals(Role.GUEST)) {
+            sendEmail(employee.getEmail(), "You've been added to a batch!", "Employee " + employee.getName() + ", has been added to batch " + batchId);
+        } else {
+            verifyEmail(employeeId);
+        }
     }
 }
