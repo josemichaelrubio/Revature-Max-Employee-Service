@@ -1,6 +1,6 @@
 package com.revaturemax.controllers;
 
-import com.revaturemax.services.EmailNotificationService;
+import com.revaturemax.services.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.*;
 public class EmailController {
 
     @Autowired
-    EmailNotificationService emailNotificationService;
+    EmailService emailService;
 
     @GetMapping
     public void sendTestEmail(){
-        emailNotificationService.sendSimpleEmail("duncan.asplundh@revature.net", "Hello!", "Tis functional");
+        emailService.sendEmail("duncan.asplundh@revature.net", "Hello!", "Tis functional");
     }
 }
