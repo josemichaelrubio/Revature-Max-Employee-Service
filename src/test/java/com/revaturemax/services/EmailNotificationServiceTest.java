@@ -24,8 +24,8 @@ public class EmailNotificationServiceTest {
 
     @Test
     public void emailNotificationServiceTest(){
-        EmailNotificationService emailNotificationService = mock(EmailNotificationService.class);
-        emailNotificationService.sendSimpleEmail("test@email.com", "test subject", "test Text");
-        verify(emailNotificationService, times(1)).sendSimpleEmail("test@email.com", "test subject", "test Text");
+        EmailService emailNotificationService = mock(EmailService.class);
+        emailNotificationService.sendEmail("test@email.com", "test subject", "test Text");
+        verify(emailNotificationService, times(1)).sendEmail("test@email.com", "test subject", "test Text");
     }
 }
