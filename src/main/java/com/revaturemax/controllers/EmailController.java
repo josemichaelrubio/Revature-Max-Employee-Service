@@ -8,7 +8,7 @@ import javax.websocket.server.PathParam;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/email")
+@RequestMapping("/verify")
 public class EmailController {
 
     @Autowired

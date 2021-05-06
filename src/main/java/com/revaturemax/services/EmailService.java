@@ -25,7 +25,7 @@ public class EmailService {
 
 
         // Sender's email ID needs to be mentioned
-        String from = "libaoyi97@gmail.com";
+        String from = "revaturemaxcompany@gmail.com";
 
         // Assuming you are sending email from through gmails smtp
         String host = "smtp.gmail.com";
@@ -44,7 +44,7 @@ public class EmailService {
 
             protected PasswordAuthentication getPasswordAuthentication() {
 
-                return new PasswordAuthentication("libaoyi97@gmail.com", "June0814!");
+                return new PasswordAuthentication("revaturemaxcompany@gmail.com", "emailcrew!3");
 
             }
 
@@ -94,7 +94,9 @@ public class EmailService {
         if(!employee.getRole().equals(Role.GUEST)) {
             sendEmail(employee.getEmail(), "You've been added to a batch!", "Employee " + employee.getName() + ", has been added to batch " + batchId);
         } else {
-            verifyEmail(employeeId);
+            // Todo be sure to update this link to our VM address
+            String link = "http://localhost:8082/verify/" + employee.getId();
+            sendEmail(employee.getEmail(), "Verification Link", link);
         }
     }
 }
