@@ -1,4 +1,4 @@
-package com.revaturemax.controllers;
+package com.revaturemax;
 
 import com.revaturemax.models.Employee;
 import com.revaturemax.models.Notes;
@@ -90,7 +90,8 @@ public class EmployeeController {
                                           @RequestBody TopicCompetency topicCompetency)
     {
         logger.info("PUT /employees/{}/topics/{} received", employeeId, topicId);
-        return topicService.setEmployeeTopicCompetency(employeeId, topicId, topicCompetency);
+        topicService.setEmployeeTopicCompetency(employeeId, topicId, topicCompetency);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PutMapping(path = "/{employee-id}/notes", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -100,5 +101,4 @@ public class EmployeeController {
         logger.info("PUT /employees/{}/notes received", employeeId);
         return notesService.setNotes(employeeId, notes);
     }
-
 }
