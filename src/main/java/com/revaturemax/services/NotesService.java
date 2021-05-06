@@ -35,10 +35,9 @@ public class NotesService {
     }
 
     public ResponseEntity<String> getFavNotes(long favNotesId, FavNotesDTO favNotesDTO) {
-        String favNotesDTO1 = favNotesDTORepository.getContent();
-        if(favNotesDTO1== null) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        return new ResponseEntity<>(favNotesDTO1,HttpStatus.Ok);
-
+        Notes notes = notesRepository.findById(favNotesId).orElse(null);
+        if (notes== null) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(notes, HttpStatus.OK);
 
 
     }
