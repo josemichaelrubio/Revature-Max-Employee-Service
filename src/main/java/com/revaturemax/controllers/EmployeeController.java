@@ -104,6 +104,7 @@ public class EmployeeController {
     }
 
 
+
 //    @GetMapping(path = "/{employee-id}/notes", consumes = MediaType.APPLICATION_JSON_VALUE)
 //    public ResponseEntity<String> getFavoriteNotes(@PathVariable("employee-id") long employeeId,
 //                                                   @RequestBody FavNotesDTO favNotesDTO)
@@ -112,6 +113,5 @@ public class EmployeeController {
 //        logger.info("Getting favorite notes with id: ", favNotesId);
 //        return notesService.getFavNotes(favNotesId, favNotesDTO);
 //    }
-
 
 }

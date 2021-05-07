@@ -34,6 +34,8 @@ public class EmployeeService {
     private TopicCompetencyRepository topicCompetencyRepository;
     @Autowired
     private QCFeedbackRepository qcFeedbackRepository;
+    @Autowired
+    private EmailService emailService;
 
     public ResponseEntity<String> getEmployees(Set<String> emails) {
         List<Employee> employees = employeeRepository.findByEmailIn(emails);
@@ -43,6 +45,10 @@ public class EmployeeService {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    public Employee getEmployeeByEmail(String email) {
+        return employeeRepository.findByEmail(email);
     }
 
     public ResponseEntity<String> getEmployees(Set<Long> employeeIds, Set<String> fields) {
@@ -105,9 +111,13 @@ public class EmployeeService {
         if (!validPassword(password)) return new ResponseEntity<>("Bad password", HttpStatus.BAD_REQUEST);
 
         Employee employee = new Employee(name, email);
-        employee.setRole(Role.ASSOCIATE);
+        //EMPLOYEE STARTS OFF AS A GUEST. WILL REMAIN A GUEST UNTIL EMAIL IS VERIFIED
+        employee.setRole(Role.GUEST);
         try {
             employee = employeeRepository.save(employee);
+            //Todo add correct link to server
+            String link = "http://localhost:8082/verify/" + employee.getId();
+            emailService.sendEmail(employee.getEmail(), "Verification Link", link);
         } catch (UnexpectedRollbackException e) {
             return new ResponseEntity<>("The provided email is already taken", HttpStatus.CONFLICT);
         }
