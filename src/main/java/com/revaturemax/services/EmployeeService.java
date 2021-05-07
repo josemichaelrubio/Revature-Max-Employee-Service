@@ -2,7 +2,6 @@ package com.revaturemax.services;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import com.revaturemax.dtos.EmployeeDTO;
 import com.revaturemax.models.*;
 import com.revaturemax.repositories.*;
@@ -24,26 +23,42 @@ import java.util.stream.Collectors;
 public class EmployeeService {
 
     @Autowired
-    ObjectMapper objectMapper;
+    private ObjectMapper objectMapper;
     @Autowired
-    EmployeeRepository employeeRepository;
+    private EmployeeRepository employeeRepository;
     @Autowired
-    PasswordRepository passwordRepository;
+    private PasswordRepository passwordRepository;
     @Autowired
-    QuizScoreRepository quizScoreRepository;
+    private QuizScoreRepository quizScoreRepository;
     @Autowired
-    TopicCompetencyRepository topicCompetencyRepository;
+    private TopicCompetencyRepository topicCompetencyRepository;
+    @Autowired
+    private QCFeedbackRepository qcFeedbackRepository;
+
+    public ResponseEntity<String> getEmployees(Set<String> emails) {
+        List<Employee> employees = employeeRepository.findByEmailIn(emails);
+        try {
+            return new ResponseEntity<>(objectMapper.writer().writeValueAsString(employees), HttpStatus.OK);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
     public ResponseEntity<String> getEmployees(Set<Long> employeeIds, Set<String> fields) {
         List<Employee> employees = employeeRepository.findAllById(employeeIds);
 
         List<QuizScore> quizScores = null;
-        if (fields.contains("quiz-scores")) {
+        if (fields != null && fields.contains("quiz-scores")) {
             quizScores = quizScoreRepository.findByEmployeeIn(employees);
         }
         List<TopicCompetency> topicCompetencies = null;
-        if (fields.contains("topic-competencies")) {
+        if (fields != null && fields.contains("topic-competencies")) {
             topicCompetencies = topicCompetencyRepository.findByEmployeeIn(employees);
+        }
+        List<QCFeedback> qcFeedbacks = null;
+        if (fields != null && fields.contains("qc-feedbacks")) {
+            qcFeedbacks = qcFeedbackRepository.findByEmployeeIn(employees);
         }
 
         List<EmployeeDTO> employeeDTOs = new ArrayList<>();
@@ -57,8 +72,12 @@ public class EmployeeService {
             if (topicCompetencies != null && !topicCompetencies.isEmpty()) {
                 employeeDTO.setTopicCompetencies(topicCompetencies.stream()
                         .filter(x -> x.getEmployee().equals(employee))
-                        .collect(Collectors.toList())
-                );
+                        .collect(Collectors.toList()));
+            }
+            if (qcFeedbacks != null && !qcFeedbacks.isEmpty()) {
+                employeeDTO.setQcFeedbacks(qcFeedbacks.stream()
+                        .filter(x -> x.getEmployee().equals(employee))
+                        .collect(Collectors.toList()));
             }
             employeeDTOs.add(employeeDTO);
         }
