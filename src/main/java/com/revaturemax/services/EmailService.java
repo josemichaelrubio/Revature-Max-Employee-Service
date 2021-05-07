@@ -82,7 +82,7 @@ public class EmailService {
     public void verifyEmail(Long employeeId) {
         ResponseEntity<Employee> response = employeeService.getEmployee(employeeId);
         Employee employee = response.getBody();
-        if(employee.getRole().equals(Role.GUEST){
+        if(employee.getRole().equals(Role.GUEST)){
             employee.setRole(Role.ASSOCIATE);
             employeeService.updateEmployee(employee.getId(), employee);
         }
