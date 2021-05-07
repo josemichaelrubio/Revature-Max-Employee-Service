@@ -22,6 +22,10 @@ public class Notes {
 
     public Notes() {}
 
+    public Notes(Long id) {
+        this.id = id;
+    }
+
     public Notes(Employee employee, Long topicId, String content) {
         this.employee = employee;
         this.topicId = topicId;

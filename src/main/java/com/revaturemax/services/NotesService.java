@@ -1,14 +1,18 @@
 package com.revaturemax.services;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import com.revaturemax.dtos.FavNotesDTO;
 import com.revaturemax.models.Employee;
 import com.revaturemax.models.Notes;
+import com.revaturemax.models.*;
 import com.revaturemax.repositories.NotesRepository;
+import com.revaturemax.repositories.TopicCompetencyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class NotesService {
@@ -19,6 +23,8 @@ public class NotesService {
     private NotesRepository notesRepository;
     @Autowired
     private FavNotesDTO favNotesDTORepository;
+    private TopicCompetencyRepository topicCompetencyRepo;
+
 
     public ResponseEntity<String> setNotes(long employeeId, Notes notes) {
         if (notes.getTopicId() == null) {

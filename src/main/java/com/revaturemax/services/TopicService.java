@@ -11,15 +11,13 @@ import org.springframework.stereotype.Service;
 public class TopicService {
 
     @Autowired
-    private TopicCompetencyRepository topicCompetencyRepository;
+    private TopicCompetencyRepository topicCompetencyRepo;
 
-    public ResponseEntity<String> setEmployeeTopicCompetency(long employeeId, long topicId,
+    public TopicCompetency setEmployeeTopicCompetency(long employeeId, long topicId,
                                                    TopicCompetency topicCompetency)
     {
         topicCompetency.setId(new TopicCompetencyId(employeeId, topicId));
         topicCompetency.setEmployee(new Employee(employeeId));
-        topicCompetencyRepository.save(topicCompetency);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return topicCompetencyRepo.save(topicCompetency);
     }
-
 }
