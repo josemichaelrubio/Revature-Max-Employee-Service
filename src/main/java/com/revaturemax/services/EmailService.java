@@ -82,9 +82,10 @@ public class EmailService {
     public void verifyEmail(Long employeeId) {
         ResponseEntity<Employee> response = employeeService.getEmployee(employeeId);
         Employee employee = response.getBody();
-        employee.setRole(Role.ASSOCIATE);
-        employeeService.updateEmployee(employee.getId(), employee);
-
+        if(employee.getRole().equals(Role.GUEST){
+            employee.setRole(Role.ASSOCIATE);
+            employeeService.updateEmployee(employee.getId(), employee);
+        }
     }
 
     public void batchInvite(Long employeeId, Long batchId) {
