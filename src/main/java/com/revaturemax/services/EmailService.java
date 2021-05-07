@@ -88,12 +88,10 @@ public class EmailService {
         }
     }
 
-    public void batchInvite(Long employeeId, Long batchId) {
-        //Todo do we want to do more with this?
-        ResponseEntity<Employee> response = employeeService.getEmployee(employeeId);
-        Employee employee = response.getBody();
+    public void batchInvite(String email, Long batchId) {
+        Employee employee = employeeService.getEmployeeByEmail(email);
         if(!employee.getRole().equals(Role.GUEST)) {
-            sendEmail(employee.getEmail(), "You've been added to a batch!", "Employee " + employee.getName() + ", has been added to batch " + batchId);
+            sendEmail(email, "You've been added to a batch!", "Employee " + employee.getName() + ", has been added to batch " + batchId);
         } else {
             // Todo be sure to update this link to our VM address
             String link = "http://localhost:8082/verify/" + employee.getId();
