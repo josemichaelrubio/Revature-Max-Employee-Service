@@ -18,8 +18,8 @@ public class EmailController {
     @Autowired
     EmailService emailService;
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void inviteBatchEmail(@RequestBody List<String> emails) {
+    @GetMapping
+    public void inviteBatchEmail(@RequestParam List<String> emails, @RequestParam long batchId) {
         System.out.println("endpoint hit");
         emailService.batchInvite(emails);
     }

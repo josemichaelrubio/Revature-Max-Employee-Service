@@ -57,11 +57,6 @@ public class EmployeeController {
         logger.info("GET /employees/{} received", employeeId);
         return employeeService.getEmployee(employeeId);
     }
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> getEmployeesByEmail(@RequestBody Set<String> emails)
-    {
-        return employeeService.getEmployees(emails);
-    }
 
     @PutMapping(path = "/{employee-id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Employee> updateEmployee(@PathVariable("employee-id") long employeeId,
