@@ -66,14 +66,6 @@ public class EmployeeController {
         return employeeService.updateEmployee(employeeId, employee);
     }
 
-//    @DeleteMapping(path = "/{employee-id}")
-//    public ResponseEntity<String> deleteEmployee(@PathVariable("employee-id") long employeeId)
-//    {
-//        logger.info("Deleting an employee with id: {}", employeeId);
-//        employeeService.deleteEmployee(employeeId);
-//        return new ResponseEntity<String>(HttpStatus.ACCEPTED);
-//    }
-
     @PutMapping(path = "/{employee-id}/quizzes/{quiz-id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> setQuizScore(@PathVariable("employee-id") long employeeId,
                                            @PathVariable("quiz-id") long quizId,
@@ -90,7 +82,8 @@ public class EmployeeController {
                                           @RequestBody TopicCompetency topicCompetency)
     {
         logger.info("PUT /employees/{}/topics/{} received", employeeId, topicId);
-        return topicService.setEmployeeTopicCompetency(employeeId, topicId, topicCompetency);
+        topicService.setEmployeeTopicCompetency(employeeId, topicId, topicCompetency);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PutMapping(path = "/{employee-id}/qcs/{qc-id}", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -109,5 +102,16 @@ public class EmployeeController {
         logger.info("PUT /employees/{}/notes received", employeeId);
         return notesService.setNotes(employeeId, notes);
     }
+
+
+//    @GetMapping(path = "/{employee-id}/notes", consumes = MediaType.APPLICATION_JSON_VALUE)
+//    public ResponseEntity<String> getFavoriteNotes(@PathVariable("employee-id") long employeeId,
+//                                                   @RequestBody FavNotesDTO favNotesDTO)
+//    {
+//
+//        logger.info("Getting favorite notes with id: ", favNotesId);
+//        return notesService.getFavNotes(favNotesId, favNotesDTO);
+//    }
+
 
 }
