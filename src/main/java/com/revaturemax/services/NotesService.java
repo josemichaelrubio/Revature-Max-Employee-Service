@@ -34,12 +34,12 @@ public class NotesService {
         }
     }
 
-    public ResponseEntity<String> getFavNotes(long favNotesId, FavNotesDTO favNotesDTO) {
-        Notes notes = notesRepository.findById(favNotesId).orElse(null);
-        if (notes== null) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        return new ResponseEntity<>(notes, HttpStatus.OK);
-
-
-    }
+//    public ResponseEntity<String> getFavNotes(long favNotesId, FavNotesDTO favNotesDTO) {
+//        Notes notes = notesRepository.findById(favNotesId).orElse(null);
+//        if (notes== null) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        return new ResponseEntity<T>(notes, HttpStatus.OK);
+//
+//
+//    }
 
 }
