@@ -21,3 +21,32 @@ spring:
       ddl-auto: validate
 server:
   port: 8082
+
+---
+
+spring:
+  application:
+    name: employee-service
+  cloud:
+    consul:
+      host: 13.82.103.66
+      port: 8500
+  config:
+    activate:
+      on-profile: prod
+  devtools:
+    restart:
+      enabled: true
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USER}
+    password: ${DB_PASS}
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+  jpa:
+    database-platform: org.hibernate.dialect.SQLServerDialect
+    open-in-view: false
+    show-sql: true
+    hibernate:
+      ddl-auto: validate
+server:
+  port: 8082
