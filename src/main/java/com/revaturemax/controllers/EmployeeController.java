@@ -1,13 +1,7 @@
 package com.revaturemax.controllers;
 
-import com.revaturemax.models.Employee;
-import com.revaturemax.models.Notes;
-import com.revaturemax.models.QuizScore;
-import com.revaturemax.models.TopicCompetency;
-import com.revaturemax.services.EmployeeService;
-import com.revaturemax.services.NotesService;
-import com.revaturemax.services.QuizService;
-import com.revaturemax.services.TopicService;
+import com.revaturemax.models.*;
+import com.revaturemax.services.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,14 +26,20 @@ public class EmployeeController {
     @Autowired
     TopicService topicService;
     @Autowired
+    QCService qcService;
+    @Autowired
     NotesService notesService;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> getEmployees(@RequestParam("id") Set<Long> employeeIds,
-                                               @RequestParam("field") Set<String> fields)
+    public ResponseEntity<String> getEmployees(@RequestParam(value = "id", required = false) Set<Long> employeeIds,
+                                               @RequestParam(value = "email", required = false) Set<String> emails,
+                                               @RequestParam(value = "field", required = false) Set<String> fields)
     {
         logger.info("GET /employees/ received");
-        return employeeService.getEmployees(employeeIds, fields);
+        if (employeeIds != null) return employeeService.getEmployees(employeeIds, fields);
+        if (emails != null) return employeeService.getEmployees(emails);
+        return new ResponseEntity<>("Querying without either 'id' or 'email' parameter not allowed",
+                HttpStatus.I_AM_A_TEAPOT);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
@@ -66,14 +66,6 @@ public class EmployeeController {
         return employeeService.updateEmployee(employeeId, employee);
     }
 
-//    @DeleteMapping(path = "/{employee-id}")
-//    public ResponseEntity<String> deleteEmployee(@PathVariable("employee-id") long employeeId)
-//    {
-//        logger.info("Deleting an employee with id: {}", employeeId);
-//        employeeService.deleteEmployee(employeeId);
-//        return new ResponseEntity<String>(HttpStatus.ACCEPTED);
-//    }
-
     @PutMapping(path = "/{employee-id}/quizzes/{quiz-id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> setQuizScore(@PathVariable("employee-id") long employeeId,
                                            @PathVariable("quiz-id") long quizId,
@@ -85,12 +77,22 @@ public class EmployeeController {
     }
 
     @PutMapping(path = "/{employee-id}/topics/{topic-id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> setEmployeeTopicCompetency(@PathVariable("employee-id") long employeeId,
+    public ResponseEntity<String> setTopicCompetency(@PathVariable("employee-id") long employeeId,
                                           @PathVariable("topic-id") long topicId,
                                           @RequestBody TopicCompetency topicCompetency)
     {
         logger.info("PUT /employees/{}/topics/{} received", employeeId, topicId);
-        return topicService.setEmployeeTopicCompetency(employeeId, topicId, topicCompetency);
+        topicService.setEmployeeTopicCompetency(employeeId, topicId, topicCompetency);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping(path = "/{employee-id}/qcs/{qc-id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> setQCFeedback(@PathVariable("employee-id") long employeeId,
+                                                             @PathVariable("qc-id") long qcId,
+                                                             @RequestBody QCFeedback qcFeedback)
+    {
+        logger.info("PUT /employees/{}/qcs/{} received", employeeId, qcId);
+        return qcService.setQCFeedback(employeeId, qcId, qcFeedback);
     }
 
     @PutMapping(path = "/{employee-id}/notes", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -100,5 +102,16 @@ public class EmployeeController {
         logger.info("PUT /employees/{}/notes received", employeeId);
         return notesService.setNotes(employeeId, notes);
     }
+
+
+
+//    @GetMapping(path = "/{employee-id}/notes", consumes = MediaType.APPLICATION_JSON_VALUE)
+//    public ResponseEntity<String> getFavoriteNotes(@PathVariable("employee-id") long employeeId,
+//                                                   @RequestBody FavNotesDTO favNotesDTO)
+//    {
+//
+//        logger.info("Getting favorite notes with id: ", favNotesId);
+//        return notesService.getFavNotes(favNotesId, favNotesDTO);
+//    }
 
 }
