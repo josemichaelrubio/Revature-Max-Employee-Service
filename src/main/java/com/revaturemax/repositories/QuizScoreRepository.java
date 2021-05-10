@@ -12,6 +12,8 @@ import java.util.List;
 @Repository
 public interface QuizScoreRepository extends JpaRepository<QuizScore, QuizScoreId> {
 
+    List<QuizScore> findByEmployee(Employee employee);
+
     @Query("SELECT qs FROM QuizScore qs " +
             "LEFT JOIN FETCH qs.employee AS e " +
             "WHERE e IN :employees")

@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revaturemax.dtos.EmployeeDTO;
 import com.revaturemax.models.*;
 import com.revaturemax.repositories.*;
-import com.revaturemax.repositories.QuizScoreRepository;
 import com.revaturemax.util.Passwords;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -37,10 +36,24 @@ public class EmployeeService {
     @Autowired
     private EmailService emailService;
 
-    public ResponseEntity<String> getEmployees(Set<String> emails) {
-        List<Employee> employees = employeeRepository.findByEmailIn(emails);
+    public ResponseEntity<String> getEmployee(long employeeId, Set<String> fields)
+    {
+        Employee employee = employeeRepository.findById(employeeId).orElse(null);
+        if (employee == null) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        EmployeeDTO employeeDTO = new EmployeeDTO(employee);
+        if (fields != null && fields.contains("quiz-scores")) {
+            employeeDTO.setQuizScores(quizScoreRepository.findByEmployee(employee));
+        }
+        if (fields != null && fields.contains("topic-competencies")) {
+            employeeDTO.setTopicCompetencies(topicCompetencyRepository.findByEmployee(employee));
+        }
+        if (fields != null && fields.contains("qc-feedbacks")) {
+            employeeDTO.setQcFeedbacks(qcFeedbackRepository.findByEmployee(employee));
+        }
+
         try {
-            return new ResponseEntity<>(objectMapper.writer().writeValueAsString(employees), HttpStatus.OK);
+            return new ResponseEntity<>(objectMapper.writer().writeValueAsString(employeeDTO), HttpStatus.OK);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -49,6 +62,16 @@ public class EmployeeService {
 
     public Employee getEmployeeByEmail(String email) {
         return employeeRepository.findByEmail(email);
+    }
+
+    public ResponseEntity<String> getEmployees(Set<String> emails) {
+        List<Employee> employees = employeeRepository.findByEmailIn(emails);
+        try {
+            return new ResponseEntity<>(objectMapper.writer().writeValueAsString(employees), HttpStatus.OK);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     public ResponseEntity<String> getEmployees(Set<Long> employeeIds, Set<String> fields) {
@@ -96,13 +119,6 @@ public class EmployeeService {
         }
     }
 
-    public ResponseEntity<Employee> getEmployee(long employeeId)
-    {
-        Employee employee = employeeRepository.findById(employeeId).orElse(null);
-        if (employee == null) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        return new ResponseEntity<>(employee, HttpStatus.OK);
-    }
-
     @Transactional
     public ResponseEntity<String> createNewEmployee(String name, String email, String password)
     {
@@ -135,11 +151,6 @@ public class EmployeeService {
         employee = employeeRepository.save(employee);
         return new ResponseEntity<>(employee, HttpStatus.OK);
     }
-
-
-    /*public void deleteEmployee(long id) {
-        employeeRepository.deleteById(id);
-    }*/
 
     private boolean validName(String name) {
         return name != null && !name.equals("") && name.length() < 256;
