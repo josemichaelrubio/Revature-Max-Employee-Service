@@ -45,7 +45,7 @@ pipeline {
         }
         stage('create container') {
             steps {
-                sh 'docker run -d --rm --network host -p ${PORT}:${PORT} -e DB_URL=${DB_URL} -e DB_USER=${DB_USER} -e DB_PASS=${DB_PASS} --name ${CONTAINER_NAME} ${IMAGE_TAG}'
+                sh 'docker run -d --rm --network host -p ${PORT}:${PORT} -e SPRING_PROFILES_ACTIVE=prod -e DB_URL=${DB_URL} -e DB_USER=${DB_USER} -e DB_PASS=${DB_PASS} --name ${CONTAINER_NAME} ${IMAGE_TAG}'
             }
         }
     }
