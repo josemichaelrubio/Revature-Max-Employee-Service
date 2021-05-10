@@ -1,8 +1,8 @@
 package com.revaturemax.services;
 import com.revaturemax.models.Employee;
 import com.revaturemax.models.Role;
+import com.revaturemax.repositories.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,10 +15,14 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+
 @Service
 public class EmailService {
+
     @Autowired
     EmployeeService employeeService;
+    @Autowired
+    EmployeeRepository employeeRepository;
 
     public void sendEmail(String to, String subject, String text) {
 
@@ -81,9 +85,8 @@ public class EmailService {
     }
 
     public void verifyEmail(Long employeeId) {
-        ResponseEntity<Employee> response = employeeService.getEmployee(employeeId);
-        Employee employee = response.getBody();
-        if(employee.getRole().equals(Role.GUEST)){
+        Employee employee = employeeRepository.findById(employeeId).orElse(null);
+        if(employee != null && employee.getRole().equals(Role.GUEST)){
             employee.setRole(Role.ASSOCIATE);
             employeeService.updateEmployee(employee.getId(), employee);
         }
