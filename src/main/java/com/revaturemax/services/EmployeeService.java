@@ -47,6 +47,10 @@ public class EmployeeService {
         }
     }
 
+    public Employee getEmployeeByEmail(String email) {
+        return employeeRepository.findByEmail(email);
+    }
+
     public ResponseEntity<String> getEmployees(Set<Long> employeeIds, Set<String> fields) {
         List<Employee> employees = employeeRepository.findAllById(employeeIds);
 
