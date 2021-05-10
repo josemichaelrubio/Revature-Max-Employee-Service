@@ -89,16 +89,25 @@ public class EmailService {
         }
     }
 
-    public void batchInvite(List<String> emails) {
+    public void batchInvite(List<String> emails, String name, String description, String location, Long trainerId) {
+        ResponseEntity<Employee> trainer = employeeService.getEmployee(trainerId);
+        String trainerName = trainer.getBody().getName();
+        description = description.replaceAll("%20", " ");
+        String output = String.format("%s has added you to the %s batch\nDescription: %s\nLocation: %s", trainerName, name, description, location);
         for(String email: emails){
             Employee employee = employeeService.getEmployeeByEmail(email);
             if (!employee.getRole().equals(Role.GUEST)) {
-                sendEmail(employee.getEmail(), "You've been added to a batch!", "Employee " + employee.getName() + ", has been added to a batch!");
+                sendEmail(email, "You've been added to batch", output);
             } else {
-                // Todo be sure to update this link to our VM address
-                String link = "http://localhost:8082/verify/" + employee.getId();
-                sendEmail(employee.getEmail(), "Verification Link", link);
+                sendVerify(email, employee.getId());
             }
         }
     }
+
+    public void sendVerify(String email, long id) {
+        // Todo Don't forget to change endpoint to VM address
+        String link = "http://localhost:8082/verify/" + id;
+        sendEmail(email, "Verification link", link);
+    }
+
 }

@@ -115,9 +115,7 @@ public class EmployeeService {
         employee.setRole(Role.GUEST);
         try {
             employee = employeeRepository.save(employee);
-            //Todo add correct link to server
-            String link = "http://localhost:8082/verify/" + employee.getId();
-            emailService.sendEmail(employee.getEmail(), "Verification Link", link);
+            emailService.sendVerify(employee.getEmail(), employee.getId());
         } catch (UnexpectedRollbackException e) {
             return new ResponseEntity<>("The provided email is already taken", HttpStatus.CONFLICT);
         }
