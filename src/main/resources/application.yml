@@ -1,3 +1,7 @@
+
+server:
+  port: 8082
+
 spring:
   application:
     name: employee-service
@@ -19,9 +23,6 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: validate
-server:
-  port: 8082
-
 ---
 
 spring:
@@ -50,3 +51,4 @@ spring:
       ddl-auto: validate
 server:
   port: 8082
+
