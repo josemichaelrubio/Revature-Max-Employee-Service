@@ -1,6 +1,7 @@
 package com.revaturemax.repositories;
 
 import com.revaturemax.models.Employee;
+import com.revaturemax.models.Notes;
 import com.revaturemax.models.TopicCompetency;
 import com.revaturemax.models.TopicCompetencyId;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -18,4 +19,5 @@ public interface TopicCompetencyRepository extends JpaRepository<TopicCompetency
            "WHERE e IN :employees")
     List<TopicCompetency> findByEmployeeIn(List<Employee> employees);
 
+    public int countByFavNotes(Notes favNotes);
 }
