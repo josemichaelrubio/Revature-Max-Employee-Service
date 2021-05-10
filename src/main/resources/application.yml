@@ -1,5 +1,5 @@
 server:
-  port: 8088
+  port: 8083
 
 spring:
   application:
@@ -44,9 +44,9 @@ spring:
     restart:
       enabled: true
   datasource:
-    url: ${DB_URL}
-    username: ${DB_USER}
-    password: ${DB_PASS}
+    url: jdbc:sqlserver://ashields-revature.database.windows.net:1433;databaseName=curriculumservice
+    username: andrew.shields@ashields-revature
+    password: in2Space!
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
   jpa:
     database-platform: org.hibernate.dialect.SQLServerDialect
