@@ -1,5 +1,7 @@
 package com.revaturemax.models;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -19,6 +21,10 @@ public class Notes {
 
     @Lob
     private String content;
+
+    @Transient
+    @JsonInclude
+    private int votes;
 
     public Notes() {}
 
@@ -62,6 +68,14 @@ public class Notes {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public int getVotes() {
+        return votes;
+    }
+
+    public void setVotes(int votes) {
+        this.votes = votes;
     }
 
     @Override

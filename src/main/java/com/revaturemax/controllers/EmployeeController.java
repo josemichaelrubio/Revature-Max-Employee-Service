@@ -1,5 +1,6 @@
 package com.revaturemax.controllers;
 
+import com.revaturemax.dtos.NotesDTO;
 import com.revaturemax.models.*;
 import com.revaturemax.services.*;
 import org.apache.logging.log4j.LogManager;
@@ -105,6 +106,12 @@ public class EmployeeController {
     {
         logger.info("PUT /employees/{}/qcs/{} received", employeeId, qcId);
         return qcService.setQCFeedback(employeeId, qcId, instructorFeedback);
+    }
+
+    @GetMapping("/notes/{topic-id}")
+    public ResponseEntity<NotesDTO> getNotesByTopic(@PathVariable("topic-id") Long topicId,
+                                                    @RequestParam("employee") Long employeeId) {
+        return new ResponseEntity<>(notesService.getNotesByTopic(topicId, employeeId), HttpStatus.OK);
     }
 
     @PutMapping(path = "/{employee-id}/notes", consumes = MediaType.APPLICATION_JSON_VALUE)
