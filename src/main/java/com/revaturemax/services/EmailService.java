@@ -93,8 +93,8 @@ public class EmailService {
     }
 
     public void batchInvite(List<String> emails, String name, String description, String location, Long trainerId) {
-        ResponseEntity<Employee> trainer = employeeService.getEmployee(trainerId);
-        String trainerName = trainer.getBody().getName();
+        Employee trainer = employeeRepository.findById(trainerId).orElse(null);
+        String trainerName = trainer.getName();
         description = description.replaceAll("%20", " ");
         String output = String.format("%s has added you to the %s batch\nDescription: %s\nLocation: %s", trainerName, name, description, location);
         for(String email: emails){

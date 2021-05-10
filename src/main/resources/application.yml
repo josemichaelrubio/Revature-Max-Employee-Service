@@ -8,9 +8,6 @@ spring:
     consul:
       host: 13.82.103.66
       port: 8500
-  config:
-    activate:
-      on-profile: prod
   devtools:
     restart:
       enabled: true
