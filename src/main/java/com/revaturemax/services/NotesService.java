@@ -22,7 +22,6 @@ public class NotesService {
     @Autowired
     private NotesRepository notesRepository;
     @Autowired
-    private FavNotesDTO favNotesDTORepository;
     private TopicCompetencyRepository topicCompetencyRepo;
 
 
