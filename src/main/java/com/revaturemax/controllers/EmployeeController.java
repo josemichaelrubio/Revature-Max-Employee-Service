@@ -131,4 +131,13 @@ public class EmployeeController {
 //        return notesService.getFavNotes(favNotesId, favNotesDTO);
 //    }
 
+
+    @GetMapping("/login/{email}")
+    public ResponseEntity<Long> getIdByEmail(@PathVariable("email") String email){
+        logger.info("retrieving employee ID from email");
+        return ResponseEntity.ok().body(employeeService.getEmployeeByEmail(email).getId());
+    }
+
+
+
 }
