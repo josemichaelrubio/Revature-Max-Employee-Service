@@ -51,13 +51,12 @@ public class EmployeeController {
                 HttpStatus.I_AM_A_TEAPOT);
     }
 
-    @PostMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    @PostMapping
     public ResponseEntity<Long> createNewEmployee(@RequestParam("name") String name,
-                                         @RequestParam("email") String email,
-                                         @RequestParam("password") String password)
+                                         @RequestParam("email") String email)
     {
         logger.info("POST /employees received");
-        return employeeService.createNewEmployee(name, email, password);
+        return employeeService.createNewEmployee(name, email);
     }
 
     @PutMapping(path = "/{employee-id}", consumes = MediaType.APPLICATION_JSON_VALUE)

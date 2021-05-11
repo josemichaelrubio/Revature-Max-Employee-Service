@@ -5,12 +5,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revaturemax.dtos.EmployeeDTO;
 import com.revaturemax.models.*;
 import com.revaturemax.repositories.*;
-import com.revaturemax.util.Passwords;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.UnexpectedRollbackException;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
@@ -25,8 +23,6 @@ public class EmployeeService {
     private ObjectMapper objectMapper;
     @Autowired
     private EmployeeRepository employeeRepository;
-    @Autowired
-    private PasswordRepository passwordRepository;
     @Autowired
     private QuizScoreRepository quizScoreRepository;
     @Autowired
@@ -120,16 +116,13 @@ public class EmployeeService {
     }
 
     @Transactional
-    public ResponseEntity<Long> createNewEmployee(String name, String email, String password)
+    public ResponseEntity<Long> createNewEmployee(String name, String email)
     {
         Employee employee = new Employee(name, email);
         //EMPLOYEE STARTS OFF AS A GUEST. WILL REMAIN A GUEST UNTIL EMAIL IS VERIFIED
         employee.setRole(Role.GUEST);
         employee = employeeRepository.save(employee);
         emailService.sendVerify(employee.getEmail(), employee.getId());
-        byte[] salt = Passwords.getNewPasswordSalt();
-        byte[] hash = Passwords.getPasswordHash(password, salt);
-        passwordRepository.save(new Password(employee, salt, hash));
         return new ResponseEntity<>(employee.getId(), HttpStatus.CREATED);
     }
 
