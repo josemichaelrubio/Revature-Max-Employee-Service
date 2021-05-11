@@ -120,30 +120,17 @@ public class EmployeeService {
     }
 
     @Transactional
-    public ResponseEntity<String> createNewEmployee(String name, String email, String password)
+    public ResponseEntity<Long> createNewEmployee(String name, String email, String password)
     {
-        if (!validName(name)) return new ResponseEntity<>("Bad name", HttpStatus.BAD_REQUEST);
-        if (!validEmail(email)) return new ResponseEntity<>("Bad email", HttpStatus.BAD_REQUEST);
-        if (!validPassword(password)) return new ResponseEntity<>("Bad password", HttpStatus.BAD_REQUEST);
-
         Employee employee = new Employee(name, email);
         //EMPLOYEE STARTS OFF AS A GUEST. WILL REMAIN A GUEST UNTIL EMAIL IS VERIFIED
         employee.setRole(Role.GUEST);
-        try {
-            employee = employeeRepository.save(employee);
-            emailService.sendVerify(employee.getEmail(), employee.getId());
-        } catch (UnexpectedRollbackException e) {
-            return new ResponseEntity<>("The provided email is already taken", HttpStatus.CONFLICT);
-        }
-
+        employee = employeeRepository.save(employee);
+        emailService.sendVerify(employee.getEmail(), employee.getId());
         byte[] salt = Passwords.getNewPasswordSalt();
         byte[] hash = Passwords.getPasswordHash(password, salt);
         passwordRepository.save(new Password(employee, salt, hash));
-        try {
-            return new ResponseEntity<>(objectMapper.writer().writeValueAsString(employee), HttpStatus.CREATED);
-        } catch (JsonProcessingException e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        return new ResponseEntity<>(employee.getId(), HttpStatus.CREATED);
     }
 
     public ResponseEntity<Employee> updateEmployee(Long employeeId, Employee employee) {

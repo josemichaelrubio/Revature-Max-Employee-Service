@@ -52,7 +52,7 @@ public class EmployeeController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public ResponseEntity<String> createNewEmployee(@RequestParam("name") String name,
+    public ResponseEntity<Long> createNewEmployee(@RequestParam("name") String name,
                                          @RequestParam("email") String email,
                                          @RequestParam("password") String password)
     {
