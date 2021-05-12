@@ -108,8 +108,10 @@ public class EmailService {
     }
 
     public void sendVerify(String email, long id) {
-        // Todo Don't forget to change endpoint to VM address
-        String link = "http://localhost:8082/verify/" + id;
+        //for local testing
+//        String link = "http://localhost:9990/verify/" + id;
+        //for production
+        String link = "http://20.185.67.43:9990/verify/" + id;
         sendEmail(email, "Verification link", link);
     }
 
