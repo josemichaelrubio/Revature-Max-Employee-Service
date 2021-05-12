@@ -19,10 +19,19 @@ import javax.mail.internet.MimeMessage;
 @Service
 public class EmailService {
 
-    @Autowired
+//    @Autowired
     EmployeeService employeeService;
-    @Autowired
+//    @Autowired
     EmployeeRepository employeeRepository;
+
+    public EmailService() {
+    }
+
+    @Autowired
+    public EmailService(EmployeeService employeeService, EmployeeRepository employeeRepository) {
+        this.employeeService = employeeService;
+        this.employeeRepository = employeeRepository;
+    }
 
     public void sendEmail(String to, String subject, String text) {
 
