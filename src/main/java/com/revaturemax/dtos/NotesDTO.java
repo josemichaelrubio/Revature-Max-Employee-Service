@@ -1,5 +1,6 @@
 package com.revaturemax.dtos;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.revaturemax.models.Notes;
 import org.springframework.stereotype.Component;
 
