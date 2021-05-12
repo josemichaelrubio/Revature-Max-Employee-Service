@@ -17,6 +17,7 @@ public interface TopicCompetencyRepository extends JpaRepository<TopicCompetency
 
     @Query("SELECT tc FROM TopicCompetency tc " +
            "LEFT JOIN FETCH tc.employee AS e " +
+            "LEFT JOIN FETCH tc.favNotes " +
            "WHERE e IN :employees")
     List<TopicCompetency> findByEmployeeIn(List<Employee> employees);
 
