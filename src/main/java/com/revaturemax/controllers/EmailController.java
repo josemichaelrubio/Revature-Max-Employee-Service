@@ -30,11 +30,8 @@ public class EmailController {
     }
 
     @GetMapping(path = "/{employeeId}")
-    public RedirectView verifyEmail(@PathVariable Long employeeId) {
+    public void verifyEmail(@PathVariable Long employeeId) {
         emailService.verifyEmail(employeeId);
-        RedirectView redirectView = new RedirectView();
-        redirectView.setUrl("http://localhost:4200/login"); // redirecting to login page
-        return redirectView;
     }
 }
 
