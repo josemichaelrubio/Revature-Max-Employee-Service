@@ -111,7 +111,7 @@ public class EmailService {
         //for local testing
 //        String link = "http://localhost:9990/verify/" + id;
         //for production
-        String link = "http://20.185.67.43:9990/verify/" + id;
+        String link = "http://13.82.103.66:9990/" + id;
         sendEmail(email, "Verification link", link);
     }
 
