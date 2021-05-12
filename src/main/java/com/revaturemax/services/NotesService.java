@@ -36,7 +36,10 @@ public class NotesService {
         });
         notes.setNotes(notesList);
         TopicCompetency tc = topicCompetencyRepo.getOne(new TopicCompetencyId(employeeId, topicId));
-        notes.setFav_notes_id(tc.getFavNotes().getId());
+        if(tc.getFavNotes() == null)
+            notes.setFav_notes_id(null);
+        else
+            notes.setFav_notes_id(tc.getFavNotes().getId());
         notes.setCompetency(tc.getCompetency());
         return notes;
     }

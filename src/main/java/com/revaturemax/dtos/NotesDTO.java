@@ -13,14 +13,14 @@ public class NotesDTO {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<Notes> notes;
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private long fav_notes_id;
+    private Long fav_notes_id;
 
     private float competency;
 
     public NotesDTO() {
     }
 
-    public NotesDTO(List<Notes> notes, long fav_notes_id, float competency) {
+    public NotesDTO(List<Notes> notes, Long fav_notes_id, float competency) {
         this.notes = notes;
         this.fav_notes_id = fav_notes_id;
         this.competency = competency;
@@ -34,11 +34,11 @@ public class NotesDTO {
         this.notes = notes;
     }
 
-    public long getFav_notes_id() {
+    public Long getFav_notes_id() {
         return fav_notes_id;
     }
 
-    public void setFav_notes_id(long fav_notes_id) {
+    public void setFav_notes_id(Long fav_notes_id) {
         this.fav_notes_id = fav_notes_id;
     }
 

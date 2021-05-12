@@ -107,6 +107,7 @@ public class EmployeeController {
                                            @RequestBody Notes notes)
     {
         logger.info("PUT /employees/{}/notes received", employeeId);
+        System.out.println(notes);
         return notesService.setNotes(employeeId, notes);
     }
 
