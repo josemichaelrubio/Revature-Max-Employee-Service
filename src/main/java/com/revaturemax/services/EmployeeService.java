@@ -176,6 +176,9 @@ public class EmployeeService {
 
 	public ResponseEntity<Employee> updateEmployee(Long employeeId, Employee employee) {
 		Employee dbEmployee = employeeRepository.findById(employeeId).orElse(null);
+		if(employee.getId() != 0){
+			dbEmployee.setId(dbEmployee.getId());
+		}
 		if(employee.getRole() != null){
 			dbEmployee.setRole(employee.getRole());
 		}
