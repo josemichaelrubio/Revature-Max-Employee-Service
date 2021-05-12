@@ -35,12 +35,14 @@ public class NotesService {
             n.setVotes(topicCompetencyRepo.countByFavNotes(n));
         });
         notes.setNotes(notesList);
-        TopicCompetency tc = topicCompetencyRepo.getOne(new TopicCompetencyId(employeeId, topicId));
-        if(tc.getFavNotes() == null)
-            notes.setFav_notes_id(null);
-        else
-            notes.setFav_notes_id(tc.getFavNotes().getId());
-        notes.setCompetency(tc.getCompetency());
+        TopicCompetency tc = topicCompetencyRepo.findById(new TopicCompetencyId(employeeId, topicId)).orElse(null);
+        if(tc != null) {
+            if(tc.getFavNotes() == null)
+                notes.setFav_notes_id(null);
+            else
+                notes.setFav_notes_id(tc.getFavNotes().getId());
+            notes.setCompetency(tc.getCompetency());
+        }
         return notes;
     }
 
