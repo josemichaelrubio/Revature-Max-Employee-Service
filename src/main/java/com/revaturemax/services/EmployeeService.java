@@ -2,10 +2,7 @@ package com.revaturemax.services;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.revaturemax.dtos.EmployeeDTO;
-import com.revaturemax.dtos.QCDTO;
-import com.revaturemax.dtos.QuizDTO;
-import com.revaturemax.dtos.TopicDTO;
+import com.revaturemax.dtos.*;
 import com.revaturemax.models.*;
 import com.revaturemax.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,42 +55,45 @@ public class EmployeeService {
 		}
 	}
 
-	private List<QuizDTO> getQuizScoresAndInfoForEmployee(Employee employee) {
+	private List<EmployeeQuizScore> getQuizScoresAndInfoForEmployee(Employee employee) {
 		List<QuizScore> quizScores = quizScoreRepository.findByEmployee(employee);
 		Map<Long, QuizScore> quizScoreMap = quizScores.stream().collect(Collectors.toMap(quizScore -> quizScore.getId().getQuizId(), quizScore -> quizScore));
 
 		List<Long> quizIds = new ArrayList<>(quizScoreMap.keySet());
 
 		List<QuizDTO> quizDTOS = curriculumService.getQuizzesByListOfIds(quizIds);
+		List<EmployeeQuizScore> employeeQuizScores = new ArrayList<>();
 		quizDTOS.forEach(quizDTO -> {
-			quizDTO.setScore(quizScoreMap.get(quizDTO.getId()).getScore());
+			employeeQuizScores.add(new EmployeeQuizScore(new QuizScoreId(employee.getId(), quizDTO.getId()), quizScoreMap.get(quizDTO.getId()).getScore(), quizDTO.getName()));
 		});
-		return quizDTOS;
+		return employeeQuizScores;
 	}
 
-	private List<TopicDTO> getTopicCompetenciesAndInfoForEmployee(Employee employee) {
+	private List<EmployeeTopicCompetency> getTopicCompetenciesAndInfoForEmployee(Employee employee) {
 		List<TopicCompetency> topicCompetencies = topicCompetencyRepository.findByEmployee(employee);
 		Map<Long, TopicCompetency> topicCompetencyMap = topicCompetencies.stream().collect(Collectors.toMap(topicCompetency -> topicCompetency.getId().getTopicId(), topicCompetency -> topicCompetency));
 
 		List<Long> topicIds = new ArrayList<>(topicCompetencyMap.keySet());
 
 		List<TopicDTO> topicDTOS = curriculumService.getTopicsByListOfIds(topicIds);
-		topicDTOS.forEach(topicDTO -> topicDTO.setCompetency(topicCompetencyMap.get(topicDTO.getTopicId()).getCompetency()));
-		return topicDTOS;
+		List<EmployeeTopicCompetency> employeeTopicCompetencies = new ArrayList<>();
+		topicDTOS.forEach(topicDTO ->
+				employeeTopicCompetencies.add(new EmployeeTopicCompetency(new TopicCompetencyId(employee.getId(), topicDTO.getTopicId()), topicCompetencyMap.get(topicDTO.getTopicId()).getCompetency(), topicDTO.getTechName())));
+		return employeeTopicCompetencies;
 	}
 
-	private List<QCDTO> getQCFeedbackAndInfoForEmployee(Employee employee) {
+	private List<EmployeeQCFeedback> getQCFeedbackAndInfoForEmployee(Employee employee) {
 		List<QCFeedback> qcFeedbacks = qcFeedbackRepository.findByEmployee(employee);
 		Map<Long, QCFeedback> qcFeedbackMap = qcFeedbacks.stream().collect(Collectors.toMap(qcFeedback -> qcFeedback.getId().getQcId(), qcFeedback -> qcFeedback));
 
 		List<Long> qcIds = new ArrayList<>(qcFeedbackMap.keySet());
 
 		List<QCDTO> qcdtos = curriculumService.getQCNamesByListOfIds(qcIds);
+		List<EmployeeQCFeedback> employeeQCFeedbacks = new ArrayList<>();
 		qcdtos.forEach(qcdto -> {
-			qcdto.setAssociateRating(qcFeedbackMap.get(qcdto.getId()).getAssociateRating());
-			qcdto.setInstructorFeedback(qcFeedbackMap.get(qcdto.getId()).getInstructorFeedback());
+			employeeQCFeedbacks.add(new EmployeeQCFeedback(new QCFeedbackId(employee.getId(), qcdto.getId()), qcFeedbackMap.get(qcdto.getId()).getAssociateRating(), qcFeedbackMap.get(qcdto.getId()).getInstructorFeedback(), qcdto.getName()));
 		});
-		return qcdtos;
+		return employeeQCFeedbacks;
 	}
 
 	public Employee getEmployeeByEmail(String email) {
@@ -134,7 +134,7 @@ public class EmployeeService {
 						.filter(x -> x.getEmployee().equals(employee))
 						.collect(Collectors.toList());
 				employeeDTO.setQuizScores(empScores.stream().map(
-						quizScore -> new QuizDTO(quizScore.getId().getQuizId(), quizScore.getScore())
+						quizScore -> new EmployeeQuizScore(quizScore.getId(), quizScore.getScore())
 					).collect(Collectors.toList()));
 			}
 			if (topicCompetencies != null && !topicCompetencies.isEmpty()) {
@@ -142,7 +142,7 @@ public class EmployeeService {
 						.filter(x -> x.getEmployee().equals(employee))
 						.collect(Collectors.toList());
 				employeeDTO.setTopicCompetencies(empTopics.stream().map(
-						topicCompetency -> new TopicDTO(topicCompetency.getId().getTopicId(), topicCompetency.getCompetency())
+						topicCompetency -> new EmployeeTopicCompetency(topicCompetency.getId(), topicCompetency.getCompetency())
 				).collect(Collectors.toList()));
 			}
 			if (qcFeedbacks != null && !qcFeedbacks.isEmpty()) {
@@ -150,7 +150,7 @@ public class EmployeeService {
 						.filter(x -> x.getEmployee().equals(employee))
 						.collect(Collectors.toList());
 				employeeDTO.setQcFeedbacks(empQc.stream().map(
-						qcFeedback -> new QCDTO(qcFeedback.getId().getQcId(), qcFeedback.getAssociateRating(), qcFeedback.getInstructorFeedback())
+						qcFeedback -> new EmployeeQCFeedback(qcFeedback.getId(), qcFeedback.getAssociateRating(), qcFeedback.getInstructorFeedback())
 				).collect(Collectors.toList()));
 			}
 			employeeDTOs.add(employeeDTO);

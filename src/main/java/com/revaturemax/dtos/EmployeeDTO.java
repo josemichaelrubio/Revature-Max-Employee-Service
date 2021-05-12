@@ -10,13 +10,13 @@ public class EmployeeDTO {
     private Employee employee;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private List<QuizDTO> quizScores;
+    private List<EmployeeQuizScore> quizScores;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private List<TopicDTO> topicCompetencies;
+    private List<EmployeeTopicCompetency> topicCompetencies;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private List<QCDTO> qcFeedbacks;
+    private List<EmployeeQCFeedback> qcFeedbacks;
 
     public EmployeeDTO() {}
 
@@ -32,27 +32,27 @@ public class EmployeeDTO {
         this.employee = employee;
     }
 
-    public List<QuizDTO> getQuizScores() {
+    public List<EmployeeQuizScore> getQuizScores() {
         return quizScores;
     }
 
-    public void setQuizScores(List<QuizDTO> quizScores) {
+    public void setQuizScores(List<EmployeeQuizScore> quizScores) {
         this.quizScores = quizScores;
     }
 
-    public List<TopicDTO> getTopicCompetencies() {
+    public List<EmployeeTopicCompetency> getTopicCompetencies() {
         return topicCompetencies;
     }
 
-    public void setTopicCompetencies(List<TopicDTO> topicCompetencies) {
+    public void setTopicCompetencies(List<EmployeeTopicCompetency> topicCompetencies) {
         this.topicCompetencies = topicCompetencies;
     }
 
-    public List<QCDTO> getQcFeedbacks() {
+    public List<EmployeeQCFeedback> getQcFeedbacks() {
         return qcFeedbacks;
     }
 
-    public void setQcFeedbacks(List<QCDTO> qcFeedbacks) {
+    public void setQcFeedbacks(List<EmployeeQCFeedback> qcFeedbacks) {
         this.qcFeedbacks = qcFeedbacks;
     }
 }
