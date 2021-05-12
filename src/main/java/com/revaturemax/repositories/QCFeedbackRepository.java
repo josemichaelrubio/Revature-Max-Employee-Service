@@ -12,6 +12,8 @@ import java.util.List;
 @Repository
 public interface QCFeedbackRepository extends JpaRepository<QCFeedback, QCFeedbackId> {
 
+    List<QCFeedback> findByEmployee(Employee employee);
+
     @Query("SELECT qcf FROM QCFeedback qcf " +
             "LEFT JOIN FETCH qcf.employee AS e " +
             "WHERE e IN :employees")

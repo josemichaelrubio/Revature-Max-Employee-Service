@@ -1,8 +1,8 @@
 package com.revaturemax.services;
 import com.revaturemax.models.Employee;
 import com.revaturemax.models.Role;
+import com.revaturemax.repositories.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,10 +15,14 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+
 @Service
 public class EmailService {
+
     @Autowired
     EmployeeService employeeService;
+    @Autowired
+    EmployeeRepository employeeRepository;
 
     public void sendEmail(String to, String subject, String text) {
 
@@ -81,24 +85,32 @@ public class EmailService {
     }
 
     public void verifyEmail(Long employeeId) {
-        ResponseEntity<Employee> response = employeeService.getEmployee(employeeId);
-        Employee employee = response.getBody();
-        if(employee.getRole().equals(Role.GUEST)){
+        Employee employee = employeeRepository.findById(employeeId).orElse(null);
+        if(employee != null && employee.getRole().equals(Role.GUEST)){
             employee.setRole(Role.ASSOCIATE);
             employeeService.updateEmployee(employee.getId(), employee);
         }
     }
 
-    public void batchInvite(List<String> emails) {
+    public void batchInvite(List<String> emails, String name, String description, String location, Long trainerId) {
+        Employee trainer = employeeRepository.findById(trainerId).orElse(null);
+        String trainerName = trainer.getName();
+        description = description.replaceAll("%20", " ");
+        String output = String.format("%s has added you to the %s batch\nDescription: %s\nLocation: %s", trainerName, name, description, location);
         for(String email: emails){
             Employee employee = employeeService.getEmployeeByEmail(email);
             if (!employee.getRole().equals(Role.GUEST)) {
-                sendEmail(employee.getEmail(), "You've been added to a batch!", "Employee " + employee.getName() + ", has been added to a batch!");
+                sendEmail(email, "You've been added to batch", output);
             } else {
-                // Todo be sure to update this link to our VM address
-                String link = "http://localhost:8082/verify/" + employee.getId();
-                sendEmail(employee.getEmail(), "Verification Link", link);
+                sendVerify(email, employee.getId());
             }
         }
     }
+
+    public void sendVerify(String email, long id) {
+        // Todo Don't forget to change endpoint to VM address
+        String link = "http://localhost:8082/verify/" + id;
+        sendEmail(email, "Verification link", link);
+    }
+
 }

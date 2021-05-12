@@ -2,7 +2,6 @@ package com.revaturemax.repositories;
 
 import com.revaturemax.dtos.NotesDTO;
 import com.revaturemax.models.Notes;
-import com.revaturemax.models.TopicCompetency;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

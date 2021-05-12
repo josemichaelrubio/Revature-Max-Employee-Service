@@ -1,6 +1,5 @@
 package com.revaturemax.dtos;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.revaturemax.models.Notes;
 import org.springframework.stereotype.Component;
 
@@ -12,7 +11,7 @@ import java.util.Objects;
 @Component
 public class NotesDTO {
 
-   // @JsonInclude(JsonInclude.Include.NON_NULL)
+
     private List<Notes> notes;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Long fav_notes_id;

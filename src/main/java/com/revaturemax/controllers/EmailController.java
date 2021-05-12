@@ -18,10 +18,15 @@ public class EmailController {
     @Autowired
     EmailService emailService;
 
+
+
+
     @GetMapping
-    public void inviteBatchEmail(@RequestParam List<String> emails, @RequestParam long batchId) {
+    public void inviteBatchEmail(@RequestParam List<String> emails, @RequestParam String name,
+                                 @RequestParam String description, @RequestParam String location,
+                                 @RequestParam Long trainerId) {
         System.out.println("endpoint hit");
-        emailService.batchInvite(emails);
+        emailService.batchInvite(emails, name, description, location, trainerId);
     }
 
     @GetMapping(path = "/{employeeId}")
