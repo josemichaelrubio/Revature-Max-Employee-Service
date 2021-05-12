@@ -175,8 +175,27 @@ public class EmployeeService {
 	}
 
 	public ResponseEntity<Employee> updateEmployee(Long employeeId, Employee employee) {
-		employee.setId(employeeId);
-		employee = employeeRepository.save(employee);
+		Employee dbEmployee = employeeRepository.findById(employeeId).orElse(null);
+		if(employee.getRole() != null){
+			dbEmployee.setRole(employee.getRole());
+		}
+		if(employee.getName() != null){
+			dbEmployee.setName(employee.getName());
+		}
+		if(employee.getEmail() != null){
+			dbEmployee.setEmail(employee.getEmail());
+		}
+		if(employee.getPhoneNumber() != null){
+			dbEmployee.setPhoneNumber(employee.getPhoneNumber());
+		}
+		if(employee.getAddress() != null){
+			dbEmployee.setAddress(employee.getAddress());
+		}
+		if(employee.getPictureUrl() != null){
+			dbEmployee.setPictureUrl(employee.getPictureUrl());
+		}
+
+		employee = employeeRepository.save(dbEmployee);
 		return new ResponseEntity<>(employee, HttpStatus.OK);
 	}
 
