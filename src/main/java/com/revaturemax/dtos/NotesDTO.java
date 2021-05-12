@@ -4,13 +4,15 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.revaturemax.models.Notes;
 import org.springframework.stereotype.Component;
 
+import javax.persistence.*;
+
 import java.util.List;
 import java.util.Objects;
 
 @Component
 public class NotesDTO {
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+   // @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<Notes> notes;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Long fav_notes_id;
