@@ -6,7 +6,7 @@ spring:
     name: employee-service
   cloud:
     consul:
-      host: localhost
+      host: 13.82.103.66
       port: 8500
   jackson:
     serialization:
