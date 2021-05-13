@@ -71,6 +71,7 @@ public class EmployeeService {
 
 	private List<EmployeeTopicCompetency> getTopicCompetenciesAndInfoForEmployee(Employee employee) {
 		List<TopicCompetency> topicCompetencies = topicCompetencyRepository.findByEmployee(employee);
+		System.out.println(topicCompetencies);
 		Map<Long, TopicCompetency> topicCompetencyMap = topicCompetencies.stream().collect(Collectors.toMap(topicCompetency -> topicCompetency.getId().getTopicId(), topicCompetency -> topicCompetency));
 
 		List<Long> topicIds = new ArrayList<>(topicCompetencyMap.keySet());

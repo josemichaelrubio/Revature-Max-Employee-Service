@@ -13,6 +13,7 @@ import java.util.List;
 @Repository
 public interface TopicCompetencyRepository extends JpaRepository<TopicCompetency, TopicCompetencyId> {
 
+    @Query("select tc from TopicCompetency tc left join fetch tc.employee left join fetch tc.favNotes where tc.employee = :employee")
     List<TopicCompetency> findByEmployee(Employee employee);
 
     @Query("SELECT tc FROM TopicCompetency tc " +
