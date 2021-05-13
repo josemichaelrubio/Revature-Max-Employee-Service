@@ -6,13 +6,18 @@ import com.revaturemax.models.TopicCompetency;
 import com.revaturemax.models.TopicCompetencyId;
 import com.revaturemax.repositories.TopicCompetencyRepository;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
+@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 public class TopicServiceTest {
 
     @InjectMocks

@@ -18,18 +18,20 @@ public class EmailController {
     @Autowired
     EmailService emailService;
 
+
+
+
     @GetMapping
-    public void inviteBatchEmail(@RequestParam List<String> emails, @RequestParam long batchId) {
+    public void inviteBatchEmail(@RequestParam List<String> emails, @RequestParam String name,
+                                 @RequestParam String description, @RequestParam String location,
+                                 @RequestParam Long trainerId) {
         System.out.println("endpoint hit");
-        emailService.batchInvite(emails);
+        emailService.batchInvite(emails, name, description, location, trainerId);
     }
 
     @GetMapping(path = "/{employeeId}")
-    public RedirectView verifyEmail(@PathVariable Long employeeId) {
+    public void verifyEmail(@PathVariable Long employeeId) {
         emailService.verifyEmail(employeeId);
-        RedirectView redirectView = new RedirectView();
-        redirectView.setUrl("http://localhost:4200/login"); // redirecting to login page
-        return redirectView;
     }
 }
 

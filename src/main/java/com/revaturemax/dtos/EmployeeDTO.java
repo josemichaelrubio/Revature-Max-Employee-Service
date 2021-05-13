@@ -2,9 +2,6 @@ package com.revaturemax.dtos;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.revaturemax.models.Employee;
-import com.revaturemax.models.QCFeedback;
-import com.revaturemax.models.QuizScore;
-import com.revaturemax.models.TopicCompetency;
 
 import java.util.List;
 
@@ -13,13 +10,13 @@ public class EmployeeDTO {
     private Employee employee;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private List<QuizScore> quizScores;
+    private List<EmployeeQuizScore> quizScores;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private List<TopicCompetency> topicCompetencies;
+    private List<EmployeeTopicCompetency> topicCompetencies;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private List<QCFeedback> qcFeedbacks;
+    private List<EmployeeQCFeedback> qcFeedbacks;
 
     public EmployeeDTO() {}
 
@@ -31,28 +28,31 @@ public class EmployeeDTO {
         return employee;
     }
 
-    public List<QuizScore> getQuizScores() {
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
+    public List<EmployeeQuizScore> getQuizScores() {
         return quizScores;
     }
 
-    public void setQuizScores(List<QuizScore> quizScores) {
+    public void setQuizScores(List<EmployeeQuizScore> quizScores) {
         this.quizScores = quizScores;
     }
 
-    public List<TopicCompetency> getTopicCompetencies() {
+    public List<EmployeeTopicCompetency> getTopicCompetencies() {
         return topicCompetencies;
     }
 
-    public void setTopicCompetencies(List<TopicCompetency> topicCompetencies) {
+    public void setTopicCompetencies(List<EmployeeTopicCompetency> topicCompetencies) {
         this.topicCompetencies = topicCompetencies;
     }
 
-    public List<QCFeedback> getQcFeedbacks() {
+    public List<EmployeeQCFeedback> getQcFeedbacks() {
         return qcFeedbacks;
     }
 
-    public void setQcFeedbacks(List<QCFeedback> qcFeedbacks) {
+    public void setQcFeedbacks(List<EmployeeQCFeedback> qcFeedbacks) {
         this.qcFeedbacks = qcFeedbacks;
     }
-
 }

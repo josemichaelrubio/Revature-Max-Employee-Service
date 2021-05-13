@@ -1,5 +1,6 @@
 package com.revaturemax.controllers;
 
+import com.revaturemax.dtos.NotesDTO;
 import com.revaturemax.models.*;
 import com.revaturemax.services.*;
 import org.apache.logging.log4j.LogManager;
@@ -30,6 +31,14 @@ public class EmployeeController {
     @Autowired
     NotesService notesService;
 
+    @GetMapping(path = "/{employee-id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> getEmployee(@PathVariable("employee-id") long employeeId,
+                                              @RequestParam(value = "field", required = false) Set<String> fields)
+    {
+        logger.info("GET /employees/{} received", employeeId);
+        return employeeService.getEmployee(employeeId, fields);
+    }
+
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getEmployees(@RequestParam(value = "id", required = false) Set<Long> employeeIds,
                                                @RequestParam(value = "email", required = false) Set<String> emails,
@@ -42,20 +51,12 @@ public class EmployeeController {
                 HttpStatus.I_AM_A_TEAPOT);
     }
 
-    @PostMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public ResponseEntity<String> createNewEmployee(@RequestParam("name") String name,
-                                         @RequestParam("email") String email,
-                                         @RequestParam("password") String password)
+    @PostMapping
+    public ResponseEntity<Long> createNewEmployee(@RequestParam("name") String name,
+                                         @RequestParam("email") String email)
     {
         logger.info("POST /employees received");
-        return employeeService.createNewEmployee(name, email, password);
-    }
-
-    @GetMapping(path = "/{employee-id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Employee> getEmployeeById(@PathVariable("employee-id") long employeeId)
-    {
-        logger.info("GET /employees/{} received", employeeId);
-        return employeeService.getEmployee(employeeId);
+        return employeeService.createNewEmployee(name, email);
     }
 
     @PutMapping(path = "/{employee-id}", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -86,13 +87,28 @@ public class EmployeeController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PutMapping(path = "/{employee-id}/qcs/{qc-id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> setQCFeedback(@PathVariable("employee-id") long employeeId,
-                                                             @PathVariable("qc-id") long qcId,
-                                                             @RequestBody QCFeedback qcFeedback)
+    @PutMapping(path = "/{employee-id}/qcs/{qc-id}/associate-rating")
+    public ResponseEntity<String> setQCRating(@PathVariable("employee-id") long employeeId,
+                                              @PathVariable("qc-id") long qcId,
+                                              @RequestParam("associate-rating") Integer associateRating)
     {
         logger.info("PUT /employees/{}/qcs/{} received", employeeId, qcId);
-        return qcService.setQCFeedback(employeeId, qcId, qcFeedback);
+        return qcService.setQCRating(employeeId, qcId, associateRating);
+    }
+
+    @PutMapping(path = "/{employee-id}/qcs/{qc-id}/instructor-feedback")
+    public ResponseEntity<String> setQCFeedback(@PathVariable("employee-id") long employeeId,
+                                                @PathVariable("qc-id") long qcId,
+                                                @RequestParam("instructor-feedback") Integer instructorFeedback)
+    {
+        logger.info("PUT /employees/{}/qcs/{} received", employeeId, qcId);
+        return qcService.setQCFeedback(employeeId, qcId, instructorFeedback);
+    }
+
+    @GetMapping("/notes/{topic-id}")
+    public ResponseEntity<NotesDTO> getNotesByTopic(@PathVariable("topic-id") Long topicId,
+                                                    @RequestParam("employee") Long employeeId) {
+        return new ResponseEntity<>(notesService.getNotesByTopic(topicId, employeeId), HttpStatus.OK);
     }
 
     @PutMapping(path = "/{employee-id}/notes", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -100,11 +116,10 @@ public class EmployeeController {
                                            @RequestBody Notes notes)
     {
         logger.info("PUT /employees/{}/notes received", employeeId);
+        System.out.println(notes);
         return notesService.setNotes(employeeId, notes);
     }
-
-
-
+    
 //    @GetMapping(path = "/{employee-id}/notes", consumes = MediaType.APPLICATION_JSON_VALUE)
 //    public ResponseEntity<String> getFavoriteNotes(@PathVariable("employee-id") long employeeId,
 //                                                   @RequestBody FavNotesDTO favNotesDTO)
@@ -113,5 +128,14 @@ public class EmployeeController {
 //        logger.info("Getting favorite notes with id: ", favNotesId);
 //        return notesService.getFavNotes(favNotesId, favNotesDTO);
 //    }
+
+
+    @GetMapping("/login/{email}")
+    public ResponseEntity<Long> getIdByEmail(@PathVariable("email") String email){
+        logger.info("retrieving employee ID from email");
+        return ResponseEntity.ok().body(employeeService.getEmployeeByEmail(email).getId());
+    }
+
+
 
 }

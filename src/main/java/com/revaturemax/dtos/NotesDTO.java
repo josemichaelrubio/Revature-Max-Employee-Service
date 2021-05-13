@@ -2,22 +2,30 @@ package com.revaturemax.dtos;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.revaturemax.models.Notes;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 
 import java.util.List;
 import java.util.Objects;
 
-public class FavNotesDTO {
+@Component
+public class NotesDTO {
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+
     private List<Notes> notes;
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private long fav_notes_id;
+    private Long fav_notes_id;
 
-    public FavNotesDTO(List<Notes> notes, long fav_notes_id) {
+    private float competency;
+
+    public NotesDTO() {
+    }
+
+    public NotesDTO(List<Notes> notes, Long fav_notes_id, float competency) {
         this.notes = notes;
         this.fav_notes_id = fav_notes_id;
+        this.competency = competency;
     }
 
     public List<Notes> getNotes() {
@@ -28,32 +36,41 @@ public class FavNotesDTO {
         this.notes = notes;
     }
 
-    public long getFav_notes_id() {
+    public Long getFav_notes_id() {
         return fav_notes_id;
     }
 
-    public void setFav_notes_id(long fav_notes_id) {
+    public void setFav_notes_id(Long fav_notes_id) {
         this.fav_notes_id = fav_notes_id;
+    }
+
+    public float getCompetency() {
+        return competency;
+    }
+
+    public void setCompetency(float competency) {
+        this.competency = competency;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        FavNotesDTO that = (FavNotesDTO) o;
-        return fav_notes_id == that.fav_notes_id && Objects.equals(notes, that.notes);
+        NotesDTO notesDTO = (NotesDTO) o;
+        return fav_notes_id == notesDTO.fav_notes_id && Float.compare(notesDTO.competency, competency) == 0 && Objects.equals(notes, notesDTO.notes);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(notes, fav_notes_id);
+        return Objects.hash(notes, fav_notes_id, competency);
     }
 
     @Override
     public String toString() {
-        return "FavNotesDTO{" +
+        return "NotesDTO{" +
                 "notes=" + notes +
                 ", fav_notes_id=" + fav_notes_id +
+                ", competency=" + competency +
                 '}';
     }
 }
