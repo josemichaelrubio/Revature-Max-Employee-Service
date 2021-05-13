@@ -87,8 +87,7 @@ public class EmployeeController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PutMapping(path = "/{employee-id}/qcs/{qc-id}/associate-rating",
-            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    @PutMapping(path = "/{employee-id}/qcs/{qc-id}/associate-rating")
     public ResponseEntity<String> setQCRating(@PathVariable("employee-id") long employeeId,
                                               @PathVariable("qc-id") long qcId,
                                               @RequestParam("associate-rating") Integer associateRating)
@@ -97,8 +96,7 @@ public class EmployeeController {
         return qcService.setQCRating(employeeId, qcId, associateRating);
     }
 
-    @PutMapping(path = "/{employee-id}/qcs/{qc-id}/instructor-feedback",
-            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    @PutMapping(path = "/{employee-id}/qcs/{qc-id}/instructor-feedback")
     public ResponseEntity<String> setQCFeedback(@PathVariable("employee-id") long employeeId,
                                                 @PathVariable("qc-id") long qcId,
                                                 @RequestParam("instructor-feedback") Integer instructorFeedback)
