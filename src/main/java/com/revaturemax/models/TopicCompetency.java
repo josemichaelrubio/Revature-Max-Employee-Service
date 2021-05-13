@@ -1,6 +1,7 @@
 package com.revaturemax.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.OnDelete;
 
 import javax.persistence.*;
 import java.util.Objects;

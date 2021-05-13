@@ -1,7 +1,10 @@
 package com.revaturemax.dtos;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.revaturemax.models.Notes;
 import org.springframework.stereotype.Component;
+
+import javax.persistence.*;
 
 import java.util.List;
 import java.util.Objects;
@@ -11,19 +14,19 @@ public class NotesDTO {
 
 
     private List<Notes> notes;
-    private long fav_notes_id;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Long fav_notes_id;
 
     private float competency;
 
     public NotesDTO() {
     }
 
-    public NotesDTO(List<Notes> notes, long fav_notes_id, float competency) {
+    public NotesDTO(List<Notes> notes, Long fav_notes_id, float competency) {
         this.notes = notes;
         this.fav_notes_id = fav_notes_id;
         this.competency = competency;
     }
-
 
     public List<Notes> getNotes() {
         return notes;
@@ -33,11 +36,11 @@ public class NotesDTO {
         this.notes = notes;
     }
 
-    public long getFav_notes_id() {
+    public Long getFav_notes_id() {
         return fav_notes_id;
     }
 
-    public void setFav_notes_id(long fav_notes_id) {
+    public void setFav_notes_id(Long fav_notes_id) {
         this.fav_notes_id = fav_notes_id;
     }
 
