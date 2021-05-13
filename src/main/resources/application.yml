@@ -6,8 +6,11 @@ spring:
     name: employee-service
   cloud:
     consul:
-      host: 13.82.103.66
+      host: localhost
       port: 8500
+  jackson:
+    serialization:
+      FAIL_ON_EMPTY_BEANS: false
   devtools:
     restart:
       enabled: true
@@ -22,4 +25,3 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: validate
-
